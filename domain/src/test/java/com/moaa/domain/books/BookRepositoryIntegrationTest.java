@@ -11,9 +11,11 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static com.moaa.domain.books.Book.BookBuilder.book;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.SpringApplication.run;
 
@@ -60,7 +62,7 @@ public class BookRepositoryIntegrationTest {
                 .containsExactly(book);
     }
 
-    /*@Test
+    @Test
     public void showDetailsOfBook_givenAPresentBookId_thenReturnTheDetailsOfTheBook() {
         Book book = book().withAuthor(Author.AuthorBuilder.author()
                 .withFirstName("Jan1")
@@ -69,23 +71,28 @@ public class BookRepositoryIntegrationTest {
                 .withIsbn("isbn1")
                 .withTitle("title 1")
                 .build();
+        Book book1 = bookRepository.createBook(book.getIsbn(), book.getTitle(), book.getAuthor());
         String expectedDetailsOfBook = book.getIsbn() + "\n" + book.getTitle() + "\n" +
                 book.getAuthor().getFirstName() + " " + book.getAuthor().getLastName();
-        String actualDetailsOfBook = bookRepository.showDetailsOfBook(listOfBooksInDatabase.get(0).getId());
+        String actualDetailsOfBook = bookRepository.showDetailsOfBook(book1.getId());
         assertThat(actualDetailsOfBook)
                 .isEqualTo(expectedDetailsOfBook);
-    }*/
+    }
 
-    /*@Test
-    public void showDetailsOfBook_givenAPresentBookId_thenReturnTheDetailsOfTheBook() {
-        List<Book> listOfBooksInDatabase = populateBookDatabase();
-        Book expectedBook = listOfBooksInDatabase.get(0);
-        String expectedDetailsOfBook = expectedBook.getIsbn() + "\n" + expectedBook.getTitle() + "\n" +
-                expectedBook.getAuthor().getFirstName() + " " + expectedBook.getAuthor().getLastName();
-        String actualDetailsOfBook = bookRepository.showDetailsOfBook(listOfBooksInDatabase.get(0).getId());
-        assertThat(actualDetailsOfBook)
-                .isEqualTo(expectedDetailsOfBook);
-    }*/
+    @Test
+    public void showDetailsOfBook_givenANonPresentBookId_thenThrowException() {
+        Book book = book().withAuthor(Author.AuthorBuilder.author()
+                .withFirstName("Jan1")
+                .withLastName("Janssens1")
+                .build())
+                .withIsbn("isbn1")
+                .withTitle("title 1")
+                .build();
+        Book book1 = bookRepository.createBook(book.getIsbn(), book.getTitle(), book.getAuthor());
+        assertThatExceptionOfType(NoSuchElementException.class)
+                .isThrownBy(()->bookRepository.showDetailsOfBook(book.getId()))
+                .withMessage("No value present");
+    }
 
     @SpringBootApplication
     public static class BookRepositoryIntegrationTestRunner {

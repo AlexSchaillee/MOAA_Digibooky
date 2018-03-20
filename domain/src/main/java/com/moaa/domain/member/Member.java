@@ -90,7 +90,6 @@ public class Member {
         private String postalCode;
         private String cityName;
 
-
         public static MemberBuilder buildMember() {
             return new MemberBuilder();
         }
@@ -140,6 +139,4 @@ public class Member {
                     , streetName, streetNumber, postalCode, cityName);
         }
     }
-
-
 }

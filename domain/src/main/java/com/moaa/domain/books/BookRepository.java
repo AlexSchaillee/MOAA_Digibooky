@@ -6,6 +6,7 @@ import com.moaa.domain.books.properties.Isbn;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -36,13 +37,14 @@ public class BookRepository {
         return bookDatabase.createBook(book);
     }
 
-    public Book searchBookByIsbnPart(String isbnPart) {
+    public List<Book> searchBookByIsbnPart(String isbnPart) {
+        List<Book> booksThatHaveTheSpecifiedIsbnPart = new ArrayList<>();
         for (Book book : getBooks()) {
             if (book.getIsbn().toString().contains(isbnPart)) {
-                return book;
+                booksThatHaveTheSpecifiedIsbnPart.add(book);
             }
         }
-        throw new IllegalArgumentException("Book not found.");
+        return booksThatHaveTheSpecifiedIsbnPart;
     }
 
     public Book searchBookByTitlePart(String titlePart) {
@@ -66,7 +68,8 @@ public class BookRepository {
 
     public void deleteBook(String isbnString) {
         try {
-            bookDatabase.delete(searchBookByIsbnPart(isbnString));
+            for (Book book : searchBookByIsbnPart(isbnString))
+            bookDatabase.delete(book);
         } catch (IllegalArgumentException e) {
             System.out.println("No book found with the given ISBN.");
         }
@@ -75,6 +78,10 @@ public class BookRepository {
     public Book updateBook(String isbnString, Book book) {
         deleteBook(isbnString);
         return createBook(book);
+    }
+
+    public void clearDatabase() {
+        bookDatabase.clear();
     }
 
     /*public String showDetailsOfBook(Isbn isbn) {

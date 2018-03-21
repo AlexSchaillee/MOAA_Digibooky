@@ -2,11 +2,13 @@ package com.moaa.api.books;
 
 // copied code from funiversity example
 
+import com.moaa.domain.books.Book;
 import com.moaa.service.books.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -42,12 +44,15 @@ public class BookController {
 
     @GetMapping(path = "/searchBookByIsbn/?isbn={isbnPart}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public BookDto searchBookByIsbnPart(@PathVariable("isbnPart") String isbnPart) {
-        return bookMapper
-                .toDto(bookService.searchBookByIsbnPart(isbnPart));
+    public List<BookDto> searchBookByIsbnPart(@PathVariable("isbnPart") String isbnPart) {
+        List<BookDto> booksDto = new ArrayList<>();
+        for (Book book : bookService.searchBookByIsbnPart(isbnPart)) {
+            booksDto.add(bookMapper.toDto(book));
+        }
+        return booksDto;
     }
 
-    @GetMapping(path = "/searchBookByTitle/?title={titlePart}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/search-book-by-title{titlePart}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BookDto searchBookByTitlePart(@PathVariable("titlePart") String titlePart) {
         return bookMapper

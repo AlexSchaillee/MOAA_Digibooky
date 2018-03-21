@@ -33,7 +33,7 @@ public class BookService {
         return bookRepository.showDetailsOfBook(isbn);
     }*/
 
-    public Book searchBookByIsbnPart(String isbnPart) {
+    public List<Book> searchBookByIsbnPart(String isbnPart) {
         return bookRepository.searchBookByIsbnPart(isbnPart);
     }
 
@@ -55,5 +55,9 @@ public class BookService {
 
     public Book updateBook(String isbnString, Book book) {
         return bookRepository.updateBook(isbnString, book);
+    }
+
+    public void clearDatabase() {
+        bookRepository.clearDatabase();
     }
 }

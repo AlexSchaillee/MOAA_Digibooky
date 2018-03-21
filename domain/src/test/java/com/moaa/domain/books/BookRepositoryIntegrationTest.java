@@ -1,4 +1,3 @@
-/*
 package com.moaa.domain.books;
 
 import com.moaa.domain.books.properties.Isbn;
@@ -12,12 +11,10 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static com.moaa.domain.books.Book.BookBuilder.book;
 import static com.moaa.domain.books.properties.Author.AuthorBuilder.author;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.springframework.boot.SpringApplication.run;
 
 @RunWith(SpringRunner.class)
@@ -53,11 +50,11 @@ public class BookRepositoryIntegrationTest {
         return new ArrayList<>(Arrays.asList(book1, book2, book3));
     }
 
-    */
-/*@Test
+@Test
     public void getBooks_givenAnEmptyDatabase_thenReturnAnEmptyArrayList() {
         // given
         // empty database injected into bookRepository
+        bookRepository.clearDatabase();
 
         // when
         List<Book> actualResult = bookRepository.getBooks();
@@ -66,20 +63,15 @@ public class BookRepositoryIntegrationTest {
         assertThat(actualResult)
                 .isEmpty();
 
-    }*//*
+    }
 
 
     @Test
     public void getBooks_givenANonEmptyDatabase_thenReturnTheListOfBooks() {
         // given
-        Book book1 = bookRepository.createBook(Isbn.create(), "title 1", author()
-                                                                                .withFirstName("Jan1")
-                                                                                .withLastName("Janssens1")
-                                                                                .build());
-        Book book2 = bookRepository.createBook(Isbn.create(), "title 2", author()
-                                                                                .withFirstName("Jan2")
-                                                                                .withLastName("Janssens2")
-                                                                                .build());
+        bookRepository.clearDatabase();
+        Book book1 = bookRepository.createBook(populateBookDatabase().get(0));
+        Book book2 = bookRepository.createBook(populateBookDatabase().get(1));
 
         // when
         List<Book> actualResult = bookRepository.getBooks();
@@ -90,6 +82,7 @@ public class BookRepositoryIntegrationTest {
 
     }
 
+    /*
     @Test
     public void createBook_givenAnIsbnAndATitleAndAnAuthor_thenAddTheBookToTheDatabaseAndReturnTheBook() {
         Book book = bookRepository.createBook(Isbn.create(), "title 1", author()
@@ -117,8 +110,7 @@ public class BookRepositoryIntegrationTest {
                 .isEqualTo(expectedDetailsOfBook);
     }
 
-    */
-/*@Test
+    @Test
     public void showDetailsOfBook_givenANonPresentBookId_thenThrowException() {
         Book book = book().withAuthor(author()
                 .withFirstName("Jan1")
@@ -131,9 +123,9 @@ public class BookRepositoryIntegrationTest {
         assertThatExceptionOfType(NoSuchElementException.class)
                 .isThrownBy(()->bookRepository.showDetailsOfBook(book.getIsbn()))
                 .withMessage("No value present");
-    }*//*
+    }
 
-
+    */
     @SpringBootApplication
     public static class BookRepositoryIntegrationTestRunner {
 
@@ -142,4 +134,4 @@ public class BookRepositoryIntegrationTest {
         }
     }
 
-}*/
+}

@@ -30,7 +30,7 @@ public class BookDatabaseTest {
     }
 
 
-    /*@Test
+    @Test
     public void createBook_givenABookToAdd_thenAddTheBookToTheListOfBooksAndReturnTheBook() {
         // given
         BookDatabase bookDatabase = new BookDatabase();
@@ -61,9 +61,9 @@ public class BookDatabaseTest {
         assertThat(bookDatabase.getBooks().get(0).getIsbn()).isEqualTo(expectedResult.getIsbn());
         assertThat(bookDatabase.getBooks().get(0).getTitle()).isEqualTo(expectedResult.getTitle());
         assertThat(bookDatabase.getBooks().get(0).getAuthor()).isEqualTo(expectedResult.getAuthor());
-        assertThat(bookDatabase.getBooks().get(0).getId()).isNotEqualTo(expectedResult.getId());
+        assertThat(bookDatabase.getBooks().get(0).getId()).isEqualTo(expectedResult.getId());
 
         assertThat(bookDatabase.getBooks()).hasSize(1);
-    }*/
+    }
 
 }

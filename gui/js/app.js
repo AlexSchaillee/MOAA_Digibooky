@@ -34,7 +34,7 @@ const TITLES = [
     "The story of a man killed by his cat",
     "Why I killed my owner, a story by cat",
     "Clouds are not real",
-    "How I traveled around the globe and can know scientifically proof that it's flat!",
+    "Me, myself and you, but not I",
     "How crashing my bike became a valuable life lesson",
 ];
 

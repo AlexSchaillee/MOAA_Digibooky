@@ -1,3 +1,4 @@
+/*
 package com.moaa.api.member;
 
 import com.moaa.domain.member.LibrarianRepository;
@@ -46,10 +47,12 @@ public class LibrarianControllerIntegrationTest {
         }
     }
 
+*/
 /*    @SpringBootApplication(scanBasePackages = {"com.moaa"})
     public class Application {
 
         public static void main(String[] args) {
             run(Application.class, args);
-        }*/
-}
+        }*//*
+
+}*/

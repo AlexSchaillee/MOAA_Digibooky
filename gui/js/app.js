@@ -156,6 +156,17 @@ function showAllBooks() {
     getAndRenderBooks(BOOKS_RESOURCE);
 }
 
+function getRandomBookDto() {
+    return `{
+        "isbn": "${ISBNS[Math.floor(Math.random() * 15)]}", 
+        "title": "${TITLES[Math.floor(Math.random() * 15)]}",
+        "authorDto": {
+            "firstName": "${AUTHOR_FIRSTNAMES[Math.floor(Math.random() * 15)]}", 
+            "lastName": "${AUTHOR_LASTNAMES[Math.floor(Math.random() * 15)]}"
+        }
+    }`;
+}
+
 /**
  * ------------------
  * --- VIEW

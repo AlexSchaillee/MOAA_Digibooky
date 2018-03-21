@@ -1,8 +1,8 @@
 package com.moaa.api.books;
 
-import com.moaa.domain.books.Author;
+import com.moaa.domain.books.properties.Author;
 
-import static com.moaa.domain.books.Author.AuthorBuilder.author;
+import static com.moaa.domain.books.properties.Author.AuthorBuilder.author;
 
 public class AuthorMapper {
 

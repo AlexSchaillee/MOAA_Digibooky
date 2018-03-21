@@ -1,13 +1,14 @@
 package com.moaa.api.lending;
 
-import com.moaa.domain.books.Book;
+import com.moaa.api.books.BookDto;
+import com.moaa.api.member.MemberDTO;
 import com.moaa.domain.member.Member;
 
 import java.time.LocalDate;
 
 public class LendContractDto {
-    private Member member;
-    private Book book;
+    private MemberDTO member;
+    private BookDto book;
     private LocalDate dueDate;
     private Integer lendId;
 
@@ -18,12 +19,12 @@ public class LendContractDto {
         return new LendContractDto();
     }
 
-    public LendContractDto withMember(Member member) {
+    public LendContractDto withMember(MemberDTO member) {
         this.member = member;
         return this;
     }
 
-    public LendContractDto withBook(Book book) {
+    public LendContractDto withBook(BookDto book) {
         this.book = book;
         return this;
     }
@@ -38,11 +39,11 @@ public class LendContractDto {
         return this;
     }
 
-    public Member getMember() {
+    public MemberDTO getMember() {
         return member;
     }
 
-    public Book getBook() {
+    public BookDto getBook() {
         return book;
     }
 

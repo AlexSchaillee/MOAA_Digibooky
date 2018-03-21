@@ -13,14 +13,14 @@ public class BookMapper{
     @Inject
     private AuthorMapper authorMapper;
 
-    BookDto toDto(Book book){
+    public BookDto toDto(Book book){
         return BookDto.bookDto()
                 .withTitle(book.getTitle())
                 .withAuthorDto(authorMapper.toDto(book.getAuthor()))
                 .withIsbn(book.getIsbn().getIsbnNumber());
     }
 
-    Book toDomain(BookDto bookDto){
+    public Book toDomain(BookDto bookDto){
         return book()
                 .withTitle(bookDto.getTitle())
                 .withAuthor(authorMapper.toDomain(bookDto.getAuthorDto()))

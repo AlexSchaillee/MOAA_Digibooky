@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class LendContract {
 
-    private static int lendContractCounter = 0;
+    private static int lendContractCounter = 1;
     private static final long standardLendingDays = 21;
 
     private Member member;

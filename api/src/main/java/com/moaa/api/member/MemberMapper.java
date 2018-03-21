@@ -8,7 +8,7 @@ import javax.inject.Named;
 @Named
 public class MemberMapper {
 
-        MemberDTO toDto(Member member){
+        public MemberDTO toDto(Member member){
             return MemberDTO.memberDTO()
                     .withFirstName(member.getFirstName())
                     .withLastName(member.getLastName())
@@ -21,7 +21,7 @@ public class MemberMapper {
                     .withInss(member.getInss());
         }
 
-        Member toDomain(MemberDTO memberDto){
+        public Member toDomain(MemberDTO memberDto){
             return new Member.MemberBuilder()
                     .withFirstName(memberDto.getFirstName())
                     .withLastName(memberDto.getLastName())

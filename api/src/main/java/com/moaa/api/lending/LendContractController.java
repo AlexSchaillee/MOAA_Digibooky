@@ -9,7 +9,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import javax.inject.Inject;
 
 @RestController
-@RequestMapping(path = {"/renting"})
+@RequestMapping(path = "/renting")
 public class LendContractController {
 
     private LendService lendService;

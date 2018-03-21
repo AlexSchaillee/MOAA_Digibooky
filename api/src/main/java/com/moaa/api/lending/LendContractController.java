@@ -24,6 +24,6 @@ public class LendContractController {
 //    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 //    @ResponseStatus(HttpStatus.CREATED)
 //    public LendContractDto(@RequestBody LendContractDto lendContractDto){
-//        return lendContractMapper.toDto
+//        return lendContractMapper.toDto(lendService.addLendContract(lendContractMapper.toDomain(lendContractDto)));
 //    }
 }

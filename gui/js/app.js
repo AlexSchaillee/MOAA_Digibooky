@@ -85,7 +85,7 @@ const BOOKS_RESOURCE = "http://localhost:9123/books";
  * ------------------
  */
 $(document).ready(function () {
-    showBooks();
+    showAllBooks();
     searchForIsbn();
     addARandomBook();
 });
@@ -96,19 +96,22 @@ $(document).ready(function () {
  * ------------------
  */
 function searchForIsbn() {
-    $("#isbn-search-button").click(function () {
-        alert("(not yet implemented) You want to search for a book with ISBN: " + $("#isbn-search-input").val());
+    $("#isbn-search-button").click(function (e) {
+        e.preventDefault();
+        getAndRenderBooks(BOOKS_RESOURCE);
     });
 }
 
 function addARandomBook() {
-    $("#add-random-book-button").click(function () {
+    $("#add-random-book-button").click(function (e) {
+        e.preventDefault();
         $.ajax({
             type: 'POST',
             url: BOOKS_RESOURCE,
             data: getRandomBookDto(),
             success: function () {
-                showBooks();
+                showDialog("A random book was added!");
+                showAllBooks();
             },
             error: function () {
                 alert("It didn't work!!");
@@ -119,9 +122,13 @@ function addARandomBook() {
     });
 }
 
-function showBooks() {
-    console.log("Calling backend!");
-    $.getJSON(BOOKS_RESOURCE, function (data) {
+function showDialog(message) {
+    $('#myModal').modal('toggle');
+    $(".modal-body").empty().append(message, null);
+}
+
+function getAndRenderBooks(url) {
+    $.getJSON(url, function (data) {
         console.log("--> Great success!");
         console.log(data);
         if (data.length > 0) {
@@ -130,7 +137,7 @@ function showBooks() {
                 $("#injectable").append(VIEW.renderSingleItem(item), null);
             });
         } else {
-            $("#injectable").append("<p>There are no books... Please add some books!</p>", null);
+            $("#injectable").append("<p>We found no books... </p>", null);
         }
     })
         .done(function () {
@@ -142,6 +149,10 @@ function showBooks() {
         .always(function () {
             console.log("--> finalized...");
         });
+}
+
+function showAllBooks() {
+    getAndRenderBooks(BOOKS_RESOURCE);
 }
 
 function getRandomBookDto() {

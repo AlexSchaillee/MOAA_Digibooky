@@ -3,6 +3,7 @@ package com.moaa.domain.lending.databases;
 import com.moaa.domain.lending.LendContract;
 
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,8 +12,8 @@ public class LendDatabase {
 
     private List<LendContract> lendContractList;
 
-    public LendDatabase(List<LendContract> lendContractList) {
-        this.lendContractList = lendContractList;
+    public LendDatabase() {
+        this.lendContractList = new ArrayList<>();
     }
 
     public List<LendContract> getLendContractList() {

@@ -24,4 +24,14 @@ public class MemberService {
     public Member registerMember(Member member) {
         return memberRepository.createMember(member);
     }
+
+    public Member getMemberById(String memberId) throws IllegalArgumentException {
+        Member returnMember = null;
+        for (Member item : memberRepository.getAllMembersWithoutInss()) {
+            if (item.getId().toString().equals(memberId)) {
+                return item;
+            }
+        }
+        throw new IllegalArgumentException("member with " + memberId + " not found");
+    }
 }

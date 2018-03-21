@@ -1,18 +1,40 @@
 package com.moaa.domain.lending;
 
+import com.moaa.domain.lending.databases.LendDatabase;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
 public class LendRepository {
 
-    private LendRepository lendRepository;
+    private LendDatabase lendDataBase;
 
     @Inject
-    public LendRepository(LendRepository lendRepository) {
-        this.lendRepository = lendRepository;
+    public LendRepository(LendDatabase lendDataBase) {
+        this.lendDataBase = lendDataBase;
     }
 
-//    public LendContract
+    public LendContract addLendContract(LendContract lendContract)throws IllegalArgumentException{
+        if (databaseContainsLendForBookId(lendContract)){
+            throw new IllegalArgumentException
+                    ("Book with id: "
+                            + lendContract.getLendId()
+                            +" already rented to member with memberId: "
+                            + lendContract.getMember().getId());
+        }
+        lendDataBase.addLendContract(lendContract);
+        return lendContract;
+    }
+
+    private boolean databaseContainsLendForBookId (LendContract lendContract){
+        boolean contains = false;
+        for (LendContract item: lendDataBase.getLendContractList()) {
+            if (item.getBook().getId().equals(lendContract.getBook().getId())){
+                contains = true;
+            }
+        }
+        return contains;
+    }
 
 }

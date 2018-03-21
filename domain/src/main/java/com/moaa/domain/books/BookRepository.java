@@ -1,6 +1,8 @@
 package com.moaa.domain.books;
 
 import com.moaa.domain.books.databases.BookDatabase;
+import com.moaa.domain.books.properties.Author;
+import com.moaa.domain.books.properties.Isbn;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,13 +20,66 @@ public class BookRepository {
         return bookDatabase.getBooks();
     }
 
-    public Book createBook(String isbn, String title, Author author) {
-        return bookDatabase.createBook(isbn, title, author);
+    public Book getBook(String isbnString) {
+        Book book = bookDatabase.getBooks().stream()
+                .filter(b->b.getIsbn().equals(Isbn.convertStringToIsbn(isbnString)))
+                .findFirst()
+                .get();
+
+        if (book == null) {
+            throw new NoSuchElementException();
+        }
+        return book;
     }
 
-    public String showDetailsOfBook(UUID bookId) {
+    public Book createBook(Book book) {
+        return bookDatabase.createBook(book);
+    }
+
+    public Book searchBookByIsbnPart(String isbnPart) {
+        for (Book book : getBooks()) {
+            if (book.getIsbn().toString().contains(isbnPart)) {
+                return book;
+            }
+        }
+        throw new IllegalArgumentException("Book not found.");
+    }
+
+    public Book searchBookByTitlePart(String titlePart) {
+        for (Book book : getBooks()) {
+            if (book.getTitle().contains(titlePart)) {
+                return book;
+            }
+        }
+        throw new IllegalArgumentException("Book not found.");
+    }
+
+    public Book searchBookByAuthorNamePart(String authorNamePart) {
+        for (Book book : getBooks()) {
+            if (book.getAuthor().getFirstName().concat(book.getAuthor().getLastName()).contains(authorNamePart)
+                    || book.getAuthor().getLastName().concat(book.getAuthor().getFirstName()).contains(authorNamePart)) {
+                return book;
+            }
+        }
+        throw new IllegalArgumentException("Book not found.");
+    }
+
+    public void deleteBook(String isbnString) {
+        try {
+            bookDatabase.delete(searchBookByIsbnPart(isbnString));
+        } catch (IllegalArgumentException e) {
+            System.out.println("No book found with the given ISBN.");
+        }
+    }
+
+    public Book updateBook(String isbnString, Book book) {
+        deleteBook(isbnString);
+        return createBook(book);
+    }
+
+    /*public String showDetailsOfBook(Isbn isbn) {
         String detailsOfBook = bookDatabase.getBooks().stream()
-                .filter(b->b.getId().equals(bookId))
+                .filter(b->b.getIsbn().equals(isbn))
                 .findFirst()
                 .get()
                 .toString();
@@ -32,5 +87,5 @@ public class BookRepository {
             throw new NoSuchElementException();
         }
         return detailsOfBook;
-    }
+    }*/
 }

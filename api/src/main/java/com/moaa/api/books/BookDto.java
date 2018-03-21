@@ -1,7 +1,5 @@
 package com.moaa.api.books;
 
-import com.moaa.domain.books.Author;
-
 public class BookDto {
 
     private String title;

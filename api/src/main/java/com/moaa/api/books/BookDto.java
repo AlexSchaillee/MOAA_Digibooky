@@ -1,12 +1,10 @@
 package com.moaa.api.books;
 
-import com.moaa.domain.books.properties.Isbn;
-
 public class BookDto {
 
     private String title;
     private AuthorDto authorDto;
-    private Isbn isbn;
+    private String isbn;
 
     public static BookDto bookDto(){
         return new BookDto();
@@ -22,7 +20,7 @@ public class BookDto {
         return this;
     }
 
-    public BookDto withIsbn(Isbn isbn){
+    public BookDto withIsbn(String isbn){
         this.isbn = isbn;
         return this;
     }
@@ -35,7 +33,7 @@ public class BookDto {
         return authorDto;
     }
 
-    public Isbn getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 }

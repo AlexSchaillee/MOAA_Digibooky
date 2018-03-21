@@ -6,7 +6,9 @@ import static java.lang.String.format;
 
 public class Isbn {
 
-    private String isbnNumber;;
+    private String isbnNumber;
+
+    private Isbn() {}
 
     private Isbn(String isbnNumber) {
         this.isbnNumber = isbnNumber;
@@ -52,6 +54,10 @@ public class Isbn {
 
     public static Isbn convertStringToIsbn(String isbnString) {
         return new Isbn(isbnString);
+    }
+
+    public String getIsbnNumber() {
+        return isbnNumber;
     }
 
     @Override

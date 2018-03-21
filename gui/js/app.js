@@ -34,6 +34,7 @@ const TITLES = [
     "The story of a man killed by his cat",
     "Why I killed my owner, a story by cat",
     "Clouds are not real",
+    "How I traveled around the globe and can know scientifically proof that it's flat!",
     "How crashing my bike became a valuable life lesson",
 ];
 
@@ -123,7 +124,6 @@ function showBooks() {
     $.getJSON(BOOKS_RESOURCE, function (data) {
         console.log("--> Great success!");
         console.log(data);
-        imgCounter = 8500;
         if (data.length > 0) {
             $("#injectable").empty();
             data.forEach(function (item) {
@@ -160,12 +160,11 @@ function getRandomBookDto() {
  * --- VIEW
  * ------------------
  */
-let imgCounter;
 const VIEW = {
     renderSingleItem: (function (book) {
         return `<div class="col-lg-3">
                     <div class="card">
-                      <img class="card-img-top img-fluid" src="https://picsum.photos/150/150/?random${imgCounter++}" alt="${book.title}">
+                      <img class="card-img-top img-fluid" src="static/img/cats/cat${Math.floor(Math.random() * 10)}.jpg" alt="${book.title}">
                       <div class="card-body">
                         <h4 class="card-title">${book.title}</h4>
                         <h5 class="card-subtitle mb-2 text-muted">${book.authorDto.firstName} ${book.authorDto.lastName}</h5>

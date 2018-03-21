@@ -1,4 +1,4 @@
-package com.moaa.domain.books;
+package com.moaa.domain.books.properties;
 
 import java.util.Objects;
 

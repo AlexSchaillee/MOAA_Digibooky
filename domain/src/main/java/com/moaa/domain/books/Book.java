@@ -1,5 +1,8 @@
 package com.moaa.domain.books;
 
+import com.moaa.domain.books.properties.Author;
+import com.moaa.domain.books.properties.Isbn;
+
 import java.util.Objects;
 import java.util.UUID;
 // copied from example code
@@ -9,9 +12,9 @@ public class Book {
     private UUID id;
     private String title;
     private Author author;
-    private String isbn;
+    private Isbn isbn;
 
-    private Book(String title, Author author, String isbn) {
+    private Book(String title, Author author, Isbn isbn) {
         id = UUID.randomUUID();
         this.title = title;
         this.author = author;
@@ -30,7 +33,7 @@ public class Book {
         return author;
     }
 
-    public String getIsbn() {
+    public Isbn getIsbn() {
         return isbn;
     }
 
@@ -56,7 +59,7 @@ public class Book {
     public static class BookBuilder {
         private String title;
         private Author author;
-        private String isbn;
+        private Isbn isbn;
 
         private BookBuilder(){}
 
@@ -78,7 +81,7 @@ public class Book {
             return this;
         }
 
-        public BookBuilder withIsbn(String isbn) {
+        public BookBuilder withIsbn(Isbn isbn) {
             this.isbn = isbn;
             return this;
         }

@@ -22,7 +22,7 @@ public class LendDatabase {
     public LendContract addLendContract(LendContract lendContract) throws IllegalArgumentException {
         if (lendContractListContainsBookId(lendContract)) {
             throw new IllegalArgumentException(
-                    "Book " +lendContract.getBook().getTitle()+" already lent");
+                    "Book " + lendContract.getBook().getTitle() + " already lent");
         }
         lendContractList.add(lendContract);
         return lendContract;

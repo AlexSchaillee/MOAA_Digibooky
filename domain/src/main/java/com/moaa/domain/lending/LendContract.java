@@ -52,15 +52,15 @@ public class LendContract {
             return this;
         }
 
-//        public LendContractBuilder withBook(Book book) {
-//            this.book = book;
-//            if (book.getLendingPeriodInDays == null) {
-//                this.dueDate = LocalDate.now().plusDays(standardLendingDays);
-//            } else {
-//                this.dueDate = LocalDate.now().plusDays(book.getLendingPeriodInDays);
-//            }
-//            return this;
-//        }
+        public LendContractBuilder withBook(Book book) {
+            this.book = book;
+            if (book.getLendingPeriodInDays() == null) {
+                this.dueDate = LocalDate.now().plusDays(standardLendingDays);
+            } else {
+                this.dueDate = LocalDate.now().plusDays(book.getLendingPeriodInDays());
+            }
+            return this;
+        }
 
         public LendContract build(){
             return new LendContract(member, book, dueDate);

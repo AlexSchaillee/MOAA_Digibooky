@@ -16,17 +16,21 @@ public class LendRepository {
     }
 
     public LendContract addLendContract(LendContract lendContract)throws IllegalArgumentException{
-        if (databaseContainsLendContract(lendContract)){
-            throw new IllegalArgumentException("Database already contains contract with id: " +lendContract.getLendId());
+        if (databaseContainsLendForBookId(lendContract)){
+            throw new IllegalArgumentException
+                    ("Book with id: "
+                            + lendContract.getLendId()
+                            +" already rented to member with memberId: "
+                            + lendContract.getMember().getId());
         }
         lendDataBase.addLendContract(lendContract);
         return lendContract;
     }
 
-    private boolean databaseContainsLendContract (LendContract lendContract){
+    private boolean databaseContainsLendForBookId (LendContract lendContract){
         boolean contains = false;
         for (LendContract item: lendDataBase.getLendContractList()) {
-            if (item.getLendId().equals(lendContract.getLendId())){
+            if (item.getBook().getId().equals(lendContract.getBook().getId())){
                 contains = true;
             }
         }

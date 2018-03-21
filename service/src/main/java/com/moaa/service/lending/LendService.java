@@ -22,9 +22,10 @@ public class LendService {
         this.memberService = memberService;
     }
 
-    public LendContract addLendContract(String memberId, String bookIsbn ) throws IllegalArgumentException {
+    public LendContract addLendContract(String memberId, String bookIsbn) throws IllegalArgumentException {
         if (bookService.searchBookByIsbnPart(bookIsbn).size()>1){
-            throw new IllegalArgumentException("Please provide a unique Isbn. More than one book found for isbn-part: "+bookIsbn);
+            throw new IllegalArgumentException
+                    ("Please provide a unique Isbn. More than one book found for isbn-part: "+bookIsbn);
         }
         return lendRepository.addLendContract(
                 LendContract.LendContractBuilder.lendContract()

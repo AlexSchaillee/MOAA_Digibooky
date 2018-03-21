@@ -27,6 +27,13 @@ public class BookController {
         this.bookMapper = bookMapper;
     }
 
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookDto createBook(@RequestBody BookDto bookDto) {
+        return bookMapper
+                .toDto(bookService.createBook(bookMapper.toDomain(bookDto)));
+    }
+
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooks() {
@@ -38,19 +45,29 @@ public class BookController {
     @GetMapping(path = "/{isbn}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByIsbn(@PathVariable("isbnPart") String isbnPartValue) {
-        List<BookDto> foundBooks = bookMapper.toDto(bookService.getBookByIsbn(isbnPartValue));
+        List<BookDto> foundBooks = bookMapper.toDto(bookService.getBooksByIsbn(isbnPartValue));
         if (foundBooks.isEmpty()) {
             throw new IllegalArgumentException("No books found with given ISBN.");
         }
         return foundBooks;
     }
-
-    @GetMapping(path = "/search", produces = APPLICATION_JSON_VALUE)
+    //https://stackoverflow.com/questions/34587254/accessing-multiple-controllers-with-same-request-mapping
+    @GetMapping(path = "/search", params = "title", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByTitle(@RequestParam("title") String titlePartValue) {
-        List<BookDto> foundBooks = bookMapper.toDto(bookService.getBookByTitle(titlePartValue));
+        List<BookDto> foundBooks = bookMapper.toDto(bookService.getBooksByTitle(titlePartValue));
         if (foundBooks.isEmpty()) {
             throw new IllegalArgumentException("No books found with given title.");
+        }
+        return foundBooks;
+    }
+
+    @GetMapping(path = "/search", params = "author", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getBooksByAuthorName(@RequestParam("author") String authorNamePartValue) {
+        List<BookDto> foundBooks = bookMapper.toDto(bookService.getBooksByAuthorName(authorNamePartValue));
+        if (foundBooks.isEmpty()) {
+            throw new IllegalArgumentException("No books found with given author's name.");
         }
         return foundBooks;
     }
@@ -77,22 +94,6 @@ public class BookController {
     public BookDto searchBookByTitlePart(@RequestParam("titlePart") String titlePart) {
         return bookMapper
                 .toDto(bookService.searchBookByTitlePart(titlePart));
-    }
-
-    @GetMapping(path = "/search-book-by-author", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public BookDto searchBookByAuthorNamePart(@RequestParam("authorNamePart") String authorNamePartValue) {
-        return bookMapper
-                .toDto(bookService.searchBookByAuthorNamePart(authorNamePartValue));
-    }*/
-
-    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(@RequestBody BookDto bookDto) {
-        return bookMapper
-                .toDto(bookService
-                        .createBook(bookMapper
-                                .toDomain(bookDto)));
     }
 
     /*@PutMapping(path = "/{isbn}", consumes = APPLICATION_JSON_VALUE)

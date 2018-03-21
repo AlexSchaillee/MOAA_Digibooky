@@ -7,6 +7,7 @@ import com.moaa.domain.books.properties.Isbn;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -27,13 +28,13 @@ public class BookService {
         return bookRepository.getBooks();
     }
 
-    public List<Book> getBookByIsbn(String isbnString) throws NoSuchElementException{
+    public List<Book> getBooksByIsbn(String isbnString) throws NoSuchElementException{
         return getBooks().stream()
                 .filter(b->b.getIsbn().equals(Isbn.convertStringToIsbn(isbnString)))
                 .collect(Collectors.toList());
     }
 
-    public List<Book> getBookByTitle(String titlePartValue) {
+    public List<Book> getBooksByTitle(String titlePartValue) {
         return getBooks().stream()
                 .filter(b->b.getTitle().contains(titlePartValue))
                 .collect(Collectors.toList());
@@ -44,8 +45,15 @@ public class BookService {
         return bookRepository.createBook(book);
     }
 
-    public Book searchBookByAuthorNamePart(String authorNamePart) {
-        return bookRepository.searchBookByAuthorNamePart(authorNamePart);
+    public List<Book> getBooksByAuthorName(String authorNamePart) {
+        List<Book> foundBooks = new ArrayList<>();
+        for (Book book : getBooks()) {
+            if (book.getAuthor().getFirstName().concat(book.getAuthor().getLastName()).contains(authorNamePart)
+                    || book.getAuthor().getLastName().concat(book.getAuthor().getFirstName()).contains(authorNamePart)) {
+                foundBooks.add(book);
+            }
+        }
+        return foundBooks;
     }
 
     /*public void deleteBoook(String isbnString) {

@@ -25,16 +25,6 @@ public class BookRepository {
         return bookDatabase.createBook(book);
     }
 
-    public Book searchBookByAuthorNamePart(String authorNamePart) {
-        for (Book book : getBooks()) {
-            if (book.getAuthor().getFirstName().concat(book.getAuthor().getLastName()).contains(authorNamePart)
-                    || book.getAuthor().getLastName().concat(book.getAuthor().getFirstName()).contains(authorNamePart)) {
-                return book;
-            }
-        }
-        throw new IllegalArgumentException("Book not found.");
-    }
-
     /*public void deleteBook(String isbnString) {
         try {
             for (Book book : searchBookByIsbnPart(isbnString))

@@ -52,7 +52,7 @@ public class BookController {
         return booksDto;
     }
 
-    @GetMapping(path = "/searchBookByTitle/?title={titlePart}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/search-book-by-title{titlePart}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BookDto searchBookByTitlePart(@PathVariable("titlePart") String titlePart) {
         return bookMapper

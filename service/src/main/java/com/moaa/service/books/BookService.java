@@ -56,4 +56,8 @@ public class BookService {
     public Book updateBook(String isbnString, Book book) {
         return bookRepository.updateBook(isbnString, book);
     }
+
+    public void clearDatabase() {
+        bookRepository.clearDatabase();
+    }
 }

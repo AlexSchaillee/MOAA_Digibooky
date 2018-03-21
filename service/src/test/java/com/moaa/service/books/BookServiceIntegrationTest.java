@@ -1,4 +1,3 @@
-/*
 package com.moaa.service.books;
 
 import com.moaa.domain.books.Book;
@@ -25,6 +24,7 @@ public class BookServiceIntegrationTest {
     @Test
     public void getBooks_givenAnEmptyBookDatabase_thenReturnAnEmptyArrayList(){
         // given
+        bookService.clearDatabase();
         List<Book> expectedResult = new ArrayList<>();
 
         // when
@@ -35,7 +35,7 @@ public class BookServiceIntegrationTest {
                 .isEqualTo(expectedResult);
     }
 
-    @SpringBootApplication
+    @SpringBootApplication(scanBasePackages= {"com.moaa"})
     public static class BookServiceIntegrationTestRunner {
 
         public static void main(String[] args) {
@@ -43,4 +43,4 @@ public class BookServiceIntegrationTest {
         }
     }
 
-}*/
+}

@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static com.moaa.domain.books.Book.BookBuilder.book;
-
 @Named
 public class BookRepository {
 

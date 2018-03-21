@@ -42,28 +42,28 @@ public class BookController {
                 .toDto(bookService.getBook(isbn));
     }
 
-    @GetMapping(path = "/searchBookByIsbn/?isbn={isbnPart}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/search-book-by-isbn", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> searchBookByIsbnPart(@PathVariable("isbnPart") String isbnPart) {
+    public List<BookDto> searchBookByIsbnPart(@PathVariable("isbnPart") String isbnPartValue) {
         List<BookDto> booksDto = new ArrayList<>();
-        for (Book book : bookService.searchBookByIsbnPart(isbnPart)) {
+        for (Book book : bookService.searchBookByIsbnPart(isbnPartValue)) {
             booksDto.add(bookMapper.toDto(book));
         }
         return booksDto;
     }
 
-    @GetMapping(path = "/search-book-by-title{titlePart}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/search-book-by-title", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public BookDto searchBookByTitlePart(@PathVariable("titlePart") String titlePart) {
+    public BookDto searchBookByTitlePart(@RequestParam("titlePart") String titlePart) {
         return bookMapper
                 .toDto(bookService.searchBookByTitlePart(titlePart));
     }
 
     @GetMapping(path = "/search-book-by-author{authorNamePart}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public BookDto searchBookByAuthorNamePart(@PathVariable("authorNamePart") String authorNamePart) {
+    public BookDto searchBookByAuthorNamePart(@PathVariable("authorNamePart") String authorNamePartValue) {
         return bookMapper
-                .toDto(bookService.searchBookByAuthorNamePart(authorNamePart));
+                .toDto(bookService.searchBookByAuthorNamePart(authorNamePartValue));
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)

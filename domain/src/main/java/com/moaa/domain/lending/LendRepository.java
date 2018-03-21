@@ -4,6 +4,7 @@ import com.moaa.domain.lending.databases.LendDatabase;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 @Named
 public class LendRepository {
@@ -37,4 +38,11 @@ public class LendRepository {
         return contains;
     }
 
+    public LendContract removeContract (LendContract lendContract){
+        return lendDataBase.removeLendContract(lendContract);
+    }
+
+    public List<LendContract> getLendContractList() {
+        return lendDataBase.getLendContractList();
+    }
 }

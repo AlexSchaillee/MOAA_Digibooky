@@ -23,7 +23,13 @@ public class LendContractController {
 
     @PostMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public LendContractDto lendContractDto(@RequestParam("memberId") String memberId, @RequestParam("bookIsbn")String bookIsbn){
+    public LendContractDto lendContractDto(@RequestParam("memberId") String memberId, @RequestParam("bookIsbn") String bookIsbn) {
         return lendContractMapper.toDto(lendService.addLendContract(memberId, bookIsbn));
+    }
+
+    @PutMapping(path = "/return", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteLendContract(@RequestParam("lendId") Integer lendId) {
+        return lendService.removeContract(lendId);
     }
 }

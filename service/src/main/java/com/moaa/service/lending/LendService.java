@@ -7,6 +7,9 @@ import com.moaa.service.member.MemberService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.time.LocalDate;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Named
 public class LendService {
@@ -23,15 +26,34 @@ public class LendService {
     }
 
     public LendContract addLendContract(String memberId, String bookIsbn) throws IllegalArgumentException {
-        if (bookService.searchBookByIsbnPart(bookIsbn).size()>1){
+        if (bookService.searchBookByIsbnPart(bookIsbn).size() > 1) {
             throw new IllegalArgumentException
-                    ("Please provide a unique Isbn. More than one book found for isbn-part: "+bookIsbn);
+                    ("Please provide a unique Isbn. More than one book found for isbn-part: " + bookIsbn);
         }
         return lendRepository.addLendContract(
                 LendContract.LendContractBuilder.lendContract()
-                .withBook(bookService.searchBookByIsbnPart(bookIsbn).get(0))
-                .withMember(memberService.getMemberById(memberId))
-                .build());
+                        .withBook(bookService.searchBookByIsbnPart(bookIsbn).get(0))
+                        .withMember(memberService.getMemberById(memberId))
+                        .build());
 
+    }
+
+    public String removeContract(Integer lendId) throws IllegalArgumentException {
+        return getOverdueMessage(lendRepository.removeContract(
+                lendRepository.getLendContractList().stream()
+                        .filter(e -> lendId.equals(e.getLendId()))
+                        .findFirst()
+                        .orElse(null)));
+    }
+
+    private String getOverdueMessage(LendContract lendContract) {
+        String message = "Thx for returning your book in time";
+        if (LocalDate.now().isAfter(lendContract.getDueDate())) {
+            message = "Your book is "
+                    + DAYS.between(lendContract.getDueDate(), LocalDate.now())
+                    + " days overdue";
+        }
+
+        return message;
     }
 }

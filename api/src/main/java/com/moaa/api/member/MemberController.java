@@ -1,6 +1,5 @@
 package com.moaa.api.member;
 
-import com.moaa.domain.member.Member;
 import com.moaa.service.member.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -27,11 +26,12 @@ public class MemberController {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberDTO registerMember(@RequestBody Member member){
-        return memberMapper.toDto(memberService.registerMember(member));
+    public MemberDTO registerMember(@RequestBody MemberDTO member){
+        return memberMapper.toDto(memberService.registerMember(memberMapper.toDomain(member)));
+
     }
 
-    @GetMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @GetMapping(produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<MemberDTO> getAllMembersWithoutInss(){
         return memberService.getAllMembersWithoutInss().stream()

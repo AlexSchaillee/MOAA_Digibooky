@@ -59,7 +59,7 @@ public class BookController {
                 .toDto(bookService.searchBookByTitlePart(titlePart));
     }
 
-    @GetMapping(path = "/searchBookByAuthor/?author={authorNamePart}", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/search-book-by-author{authorNamePart}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BookDto searchBookByAuthorNamePart(@PathVariable("authorNamePart") String authorNamePart) {
         return bookMapper

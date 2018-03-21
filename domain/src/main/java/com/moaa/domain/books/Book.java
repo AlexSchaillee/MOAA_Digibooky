@@ -23,6 +23,10 @@ public class Book {
         this.lendingPeriodInDays = null;
     }
 
+    public Long getLendingPeriodInDays() {
+        return lendingPeriodInDays;
+    }
+
     public UUID getId() {
         return id;
     }

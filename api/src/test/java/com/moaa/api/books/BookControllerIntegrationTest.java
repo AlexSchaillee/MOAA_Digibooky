@@ -1,30 +1,48 @@
-package com.moaa.service.books;
+package com.moaa.api.books;
 
 import com.moaa.domain.books.Book;
 import com.moaa.domain.books.BookRepository;
 import com.moaa.domain.books.properties.Isbn;
+import com.moaa.service.books.BookService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static com.moaa.domain.books.Book.BookBuilder.book;
 import static com.moaa.domain.books.properties.Author.AuthorBuilder.author;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.SpringApplication.run;
 
+// copied code from funiversity example
+
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = BookServiceIntegrationTest.BookServiceIntegrationTestRunner.class)
-public class BookServiceIntegrationTest {
+@SpringBootTest(classes = BookControllerIntegrationTest.BookControllerIntegrationTestRunner.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class BookControllerIntegrationTest {
+
+    @LocalServerPort
+    private int port;
 
     @Inject
     private BookService bookService;
+    @Inject
+    private BookMapper bookMapper;
+
+    @Before
+    public void clearDatabase() {
+        bookService.clearDatabase();
+    }
 
     private List<Book> populateBookDatabase() {
         Book book1 = book().withAuthor(author()
@@ -53,39 +71,35 @@ public class BookServiceIntegrationTest {
     }
 
     @Test
-    public void getBooks_givenAnEmptyBookDatabase_thenReturnAnEmptyArrayList(){
-        // given
+    public void getBooks_givenAnEmptyDatabase_thenReturnAnEmptyArrayList(){
+        //given
         bookService.clearDatabase();
-        List<Book> expectedResult = new ArrayList<>();
 
-        // when
-        List<Book> actualResult = bookService.getBooks();
+        //when
+        BookDto[] bookDtos = new TestRestTemplate()
+                .getForObject(format("http://localhost:%s/%s", port, "books"), BookDto[].class);
 
-        // then
-        assertThat(actualResult)
-                .isEqualTo(expectedResult);
+        //then
+        assertThat(bookDtos).isEmpty();
     }
 
     @Test
-    public void getBooks_givenAnNonEmptyBookDatabase_thenReturnTheListOfBooks(){
-        // given
-        bookService.clearDatabase();
-        Book book1 = bookService.createBook(populateBookDatabase().get(0));
-        Book book2 = bookService.createBook(populateBookDatabase().get(1));
+    public void getBooks_givenANonEmptyDatabase_thenReturnTheListOfBooks(){
+        bookService.createBook(populateBookDatabase().get(0));
+        bookService.createBook(populateBookDatabase().get(1));
 
-        // when
-        List<Book> actualResult = bookService.getBooks();
+        BookDto[] bookDtos = new TestRestTemplate()
+                .getForObject(format("http://localhost:%s/%s", port, "books"), BookDto[].class);
 
-        // then
-        assertThat(actualResult)
-                .contains(book1,book2);
+        assertThat(bookDtos).hasSize(2);
     }
 
-    @SpringBootApplication(scanBasePackageClasses = {BookService.class, BookRepository.class})
-    public static class BookServiceIntegrationTestRunner {
+
+    @SpringBootApplication(scanBasePackageClasses = {BookMapper.class, BookService.class, BookRepository.class})
+    public static class BookControllerIntegrationTestRunner {
 
         public static void main(String[] args) {
-            run(BookServiceIntegrationTestRunner.class, args);
+            run(BookControllerIntegrationTestRunner.class, args);
         }
     }
 

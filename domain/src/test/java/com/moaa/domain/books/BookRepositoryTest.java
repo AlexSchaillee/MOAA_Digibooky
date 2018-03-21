@@ -1,4 +1,3 @@
-/*
 package com.moaa.domain.books;
 
 import com.moaa.domain.books.databases.BookDatabase;
@@ -9,13 +8,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import static com.moaa.domain.books.properties.Author.AuthorBuilder.author;
 import static com.moaa.domain.books.Book.BookBuilder.book;
+import static com.moaa.domain.books.properties.Author.AuthorBuilder.author;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,7 +53,7 @@ public class BookRepositoryTest {
     }
 
     @Test
-    public void getBooks_givenAnEmptyDatabase() {
+    public void getBooks_givenAnEmptyDatabase_thenReturnAnEmptyArrayList() {
         List<Book> expectedBooks = unmodifiableList(new ArrayList<>());
         when(bookDatabase.getBooks())
                 .thenReturn(expectedBooks);
@@ -63,6 +63,7 @@ public class BookRepositoryTest {
         assertThat(actualBooks)
                 .isEqualTo(expectedBooks);
     }
+
 
     @Test
     public void getBooks_givenANonEmptyDatabase() {
@@ -76,6 +77,7 @@ public class BookRepositoryTest {
                 .isEqualTo(expectedBooks);
     }
 
+    /*
     @Test
     public void createBook_thenCallCreateBookInDatabaseAndReturnCreatedBook() {
         Book book = book()
@@ -93,8 +95,7 @@ public class BookRepositoryTest {
             .isEqualTo(book);
     }
 
-    */
-/*@Test
+    @Test
     public void showDetailsOfBook_givenAPresentBookId_thenReturnTheDetailsOfTheBook() {
         List<Book> listOfBooksInDatabase = populateBookDatabase();
         when(bookDatabase.getBooks()).thenReturn(listOfBooksInDatabase);
@@ -120,7 +121,7 @@ public class BookRepositoryTest {
         assertThatExceptionOfType(NoSuchElementException.class)
                 .isThrownBy(()->bookRepository.showDetailsOfBook(expectedBook.getIsbn()))
                 .withMessage("No value present");
-    }*//*
+    }
+    */
 
-
-}*/
+}

@@ -15,9 +15,11 @@ import static java.util.Collections.unmodifiableList;
 public class BookDatabase {
 
     private List<Book> books;
+    private List<Book> softDeletedBooks;
 
     public BookDatabase() {
         this.books = new ArrayList<>();
+        this.softDeletedBooks = new ArrayList<>();
     }
 
     public List<Book> getBooks() {
@@ -31,5 +33,11 @@ public class BookDatabase {
 
     public void delete(Book book) {
         books.remove(book);
+        softDeletedBooks.add(book);
+    }
+
+    public void clear() {
+        books.clear();
+        softDeletedBooks.clear();
     }
 }

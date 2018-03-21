@@ -1,7 +1,9 @@
 package com.moaa.api.lending;
 
+import com.moaa.api.books.BookMapper;
 import com.moaa.domain.lending.LendContract;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named

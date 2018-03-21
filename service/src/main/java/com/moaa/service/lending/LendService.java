@@ -23,13 +23,13 @@ public class LendService {
     }
 
     public LendContract addLendContract(String memberId, String bookIsbn) throws IllegalArgumentException {
-        if (bookService.searchBookByIsbnPart(bookIsbn).size()>1){
+        if (bookService.getBookByIsbn(bookIsbn).size()>1){
             throw new IllegalArgumentException
                     ("Please provide a unique Isbn. More than one book found for isbn-part: "+bookIsbn);
         }
         return lendRepository.addLendContract(
                 LendContract.LendContractBuilder.lendContract()
-                .withBook(bookService.searchBookByIsbnPart(bookIsbn).get(0))
+                .withBook(bookService.getBookByIsbn(bookIsbn).get(0))
                 .withMember(memberService.getMemberById(memberId))
                 .build());
 

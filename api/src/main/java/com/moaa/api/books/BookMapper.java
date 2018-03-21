@@ -6,6 +6,9 @@ import com.moaa.domain.books.properties.Isbn;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.moaa.domain.books.Book.BookBuilder.book;
 
 @Named
@@ -20,10 +23,18 @@ public class BookMapper{
                 .withIsbn(book.getIsbn().getIsbnNumber());
     }
 
+    List<BookDto> toDto(List<Book> books){
+        List<BookDto> bookDtos = new ArrayList<>();
+        for (Book book : books) {
+            bookDtos.add(toDto(book));
+        }
+        return bookDtos;
+    }
+
     Book toDomain(BookDto bookDto){
         return book()
                 .withTitle(bookDto.getTitle())
-                .withAuthor(authorMapper.toDomain(bookDto.getAuthorDto()))
+                .withAuthor(authorMapper.toDomain(bookDto.getAuthor()))
                 .withIsbn(Isbn.convertStringToIsbn(bookDto.getIsbn()))
                 .build();
     }

@@ -8,7 +8,9 @@ import com.moaa.domain.books.properties.Isbn;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 // adapted code from funiversity
 @Named
@@ -25,37 +27,36 @@ public class BookService {
         return bookRepository.getBooks();
     }
 
-    public Book getBook(String isbn) {
-        return bookRepository.getBook(isbn);
+    public List<Book> getBookByIsbn(String isbnString) throws NoSuchElementException{
+        return getBooks().stream()
+                .filter(b->b.getIsbn().equals(Isbn.convertStringToIsbn(isbnString)))
+                .collect(Collectors.toList());
     }
 
-    /*public String showDetailsOfBook(Isbn isbn){
-        return bookRepository.showDetailsOfBook(isbn);
-    }*/
-
-    public List<Book> searchBookByIsbnPart(String isbnPart) {
-        return bookRepository.searchBookByIsbnPart(isbnPart);
+    public List<Book> getBookByTitle(String titlePartValue) {
+        return getBooks().stream()
+                .filter(b->b.getTitle().contains(titlePartValue))
+                .collect(Collectors.toList());
     }
+
 
     public Book createBook(Book book) {
         return bookRepository.createBook(book);
-    }
-
-    public Book searchBookByTitlePart(String titlePart) {
-        return bookRepository.searchBookByTitlePart(titlePart);
     }
 
     public Book searchBookByAuthorNamePart(String authorNamePart) {
         return bookRepository.searchBookByAuthorNamePart(authorNamePart);
     }
 
-    public void deleteBoook(String isbnString) {
+    /*public void deleteBoook(String isbnString) {
         bookRepository.deleteBook(isbnString);
-    }
+    }*/
 
+/*
     public Book updateBook(String isbnString, Book book) {
         return bookRepository.updateBook(isbnString, book);
     }
+*/
 
     public void clearDatabase() {
         bookRepository.clearDatabase();

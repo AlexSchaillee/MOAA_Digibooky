@@ -37,12 +37,32 @@ public class BookController {
 
     @GetMapping(path = "/{isbn}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public BookDto getBook(@PathVariable("isbn") String isbn) {
-        return bookMapper
-                .toDto(bookService.getBook(isbn));
+    public List<BookDto> getBooksByIsbn(@PathVariable("isbnPart") String isbnPartValue) {
+        List<BookDto> foundBooks = bookMapper.toDto(bookService.getBookByIsbn(isbnPartValue));
+        if (foundBooks.isEmpty()) {
+            throw new IllegalArgumentException("No books found with given ISBN.");
+        }
+        return foundBooks;
     }
 
-    @GetMapping(path = "/search-book-by-isbn", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/search", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> getBooksByTitle(@RequestParam("title") String titlePartValue) {
+        List<BookDto> foundBooks = bookMapper.toDto(bookService.getBookByTitle(titlePartValue));
+        if (foundBooks.isEmpty()) {
+            throw new IllegalArgumentException("No books found with given title.");
+        }
+        return foundBooks;
+    }
+
+    /*@GetMapping(path = "/{title}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public BookDto getBookByTitle(@PathVariable("title") String title) {
+        return bookMapper
+                .toDto(bookService.getBook(title));
+    }*/
+
+    /*@GetMapping(path = "/search-book-by-isbn", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> searchBookByIsbnPart(@RequestParam("isbnPart") String isbnPartValue) {
         List<BookDto> booksDto = new ArrayList<>();
@@ -64,16 +84,18 @@ public class BookController {
     public BookDto searchBookByAuthorNamePart(@RequestParam("authorNamePart") String authorNamePartValue) {
         return bookMapper
                 .toDto(bookService.searchBookByAuthorNamePart(authorNamePartValue));
-    }
+    }*/
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody BookDto bookDto) {
         return bookMapper
-                .toDto(bookService.createBook(bookMapper.toDomain(bookDto)));
+                .toDto(bookService
+                        .createBook(bookMapper
+                                .toDomain(bookDto)));
     }
 
-    @PutMapping(path = "/{isbn}", consumes = APPLICATION_JSON_VALUE)
+    /*@PutMapping(path = "/{isbn}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BookDto updateBook(@PathVariable String isbnString, @RequestBody BookDto bookDto) {
         return bookMapper
@@ -84,6 +106,6 @@ public class BookController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(@PathVariable String isbnString) {
         bookService.deleteBoook(isbnString);
-    }
+    }*/
 
 }

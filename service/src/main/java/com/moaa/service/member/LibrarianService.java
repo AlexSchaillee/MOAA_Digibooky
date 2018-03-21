@@ -4,7 +4,9 @@ import com.moaa.domain.member.Librarian;
 import com.moaa.domain.member.LibrarianRepository;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+@Named
 public class LibrarianService {
 
     private final LibrarianRepository librarianRepository;

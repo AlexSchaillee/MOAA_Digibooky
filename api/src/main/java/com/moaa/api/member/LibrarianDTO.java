@@ -4,7 +4,7 @@ import com.moaa.domain.member.Librarian;
 
 public class LibrarianDTO {
 
-    private String id;
+   /* private String id;*/
     private String firstName;
     private String lastName;
     private String email;
@@ -12,11 +12,11 @@ public class LibrarianDTO {
     public static LibrarianDTO librarianDTO(){
         return new LibrarianDTO();
     }
-
+/*
     public LibrarianDTO withId(String id){
         this.id = id;
         return this;
-    }
+    }*/
 
     public LibrarianDTO withFirstname(String firstName){
         this.firstName = firstName;
@@ -32,10 +32,10 @@ public class LibrarianDTO {
         this.email = email;
         return this;
     }
-
+/*
     public String getId() {
         return id;
-    }
+    }*/
 
     public String getFirstName() {
         return firstName;

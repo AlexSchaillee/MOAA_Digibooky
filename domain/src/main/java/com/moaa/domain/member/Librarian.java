@@ -49,7 +49,7 @@ public class Librarian {
         private String lastName;
         private Email email;
 
-        public static LibrarianBuilder builder(){
+        public static LibrarianBuilder librarianBuilder(){
         return new LibrarianBuilder();
         }
 

@@ -24,7 +24,7 @@ public class LibrarianRepositoryTest {
     @Test
     public void integrationTest_addLibrarian_GivenALibrarian_AddToLibrarianList() {
         //GIVEN
-        Librarian librarian = Librarian.LibrarianBuilder.builder()
+        Librarian librarian = Librarian.LibrarianBuilder.librarianBuilder()
                 .withFirstName("Alex")
                 .withLastName("Schaillée")
                 .withEmail(Email.of("alex.schaillee@cm.be"))

@@ -1,4 +1,3 @@
-/*
 package com.moaa.domain.books.databases;
 
 import com.moaa.domain.books.Book;
@@ -7,7 +6,6 @@ import com.moaa.domain.books.properties.Isbn;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.moaa.domain.books.Book.BookBuilder.book;
@@ -31,8 +29,9 @@ public class BookDatabaseTest {
                 .isEqualTo(expectedResult);
     }
 
-    @Test
-    public void createBook_givenABookDatabaseAndAnIsbnAndATitleAndAnAuthor_thenAddTheBookToTheListOfBooksAndReturnTheBook() {
+
+    /*@Test
+    public void createBook_givenABookToAdd_thenAddTheBookToTheListOfBooksAndReturnTheBook() {
         // given
         BookDatabase bookDatabase = new BookDatabase();
         Isbn isbn = Isbn.create();
@@ -42,20 +41,22 @@ public class BookDatabaseTest {
                         .withLastName("Janssens")
                         .build();
 
-        Book expectedResult = book()
-                                .withIsbn(isbn)
-                                .withTitle(title)
-                                .withAuthor(author)
-                                .build();
+        Book book = book()
+                        .withIsbn(isbn)
+                        .withTitle(title)
+                        .withAuthor(author)
+                        .build();
+
+        Book expectedResult = book;
 
         // when
-        Book actualResult = bookDatabase.createBook(isbn, title, author);
+        Book actualResult = bookDatabase.createBook(book);
 
         // then
         assertThat(actualResult.getIsbn()).isEqualTo(expectedResult.getIsbn());
         assertThat(actualResult.getTitle()).isEqualTo(expectedResult.getTitle());
         assertThat(actualResult.getAuthor()).isEqualTo(expectedResult.getAuthor());
-        assertThat(actualResult.getId()).isNotEqualTo(expectedResult.getId());
+        assertThat(actualResult.getId()).isEqualTo(expectedResult.getId());
 
         assertThat(bookDatabase.getBooks().get(0).getIsbn()).isEqualTo(expectedResult.getIsbn());
         assertThat(bookDatabase.getBooks().get(0).getTitle()).isEqualTo(expectedResult.getTitle());
@@ -63,6 +64,6 @@ public class BookDatabaseTest {
         assertThat(bookDatabase.getBooks().get(0).getId()).isNotEqualTo(expectedResult.getId());
 
         assertThat(bookDatabase.getBooks()).hasSize(1);
-    }
+    }*/
 
-}*/
+}

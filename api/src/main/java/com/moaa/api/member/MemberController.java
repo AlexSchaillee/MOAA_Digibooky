@@ -26,8 +26,8 @@ public class MemberController {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberDTO registerMember(@RequestBody MemberDTO member){
-        return memberMapper.toDto(memberService.registerMember(memberMapper.toDomain(member)));
+    public MemberDTO registerMember(@RequestBody MemberDTO memberDTO){
+        return memberMapper.toDto(memberService.registerMember(memberMapper.toDomain(memberDTO)));
 
     }
 

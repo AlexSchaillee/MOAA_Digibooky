@@ -1,7 +1,7 @@
-/*
 package com.moaa.service.books;
 
 import com.moaa.domain.books.Book;
+import com.moaa.domain.books.BookRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,7 +36,7 @@ public class BookServiceIntegrationTest {
                 .isEqualTo(expectedResult);
     }
 
-    @SpringBootApplication(scanBasePackages = {"com"})
+    @SpringBootApplication(scanBasePackageClasses = {BookService.class, BookRepository.class})
     public static class BookServiceIntegrationTestRunner {
 
         public static void main(String[] args) {
@@ -45,4 +45,3 @@ public class BookServiceIntegrationTest {
     }
 
 }
-*/

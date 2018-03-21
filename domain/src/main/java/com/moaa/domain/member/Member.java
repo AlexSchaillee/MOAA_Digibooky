@@ -33,6 +33,7 @@ public class Member {
         return id;
     }
 
+    // handle with caution, sensitive information, not to be shown to everyone
     public String getInss() {
         return inss;
     }
@@ -63,6 +64,11 @@ public class Member {
 
     public String getCityName() {
         return cityName;
+    }
+
+    public Member setId(UUID uUid){
+        this.id = uUid;
+        return this;
     }
 
     @Override

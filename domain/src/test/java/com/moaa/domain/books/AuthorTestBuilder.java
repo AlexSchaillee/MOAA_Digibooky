@@ -1,8 +1,8 @@
 package com.moaa.domain.books;
 
-import org.junit.Test;
+import com.moaa.domain.books.properties.Author;
 
-import static com.moaa.domain.books.Author.AuthorBuilder.author;
+import static com.moaa.domain.books.properties.Author.AuthorBuilder.author;
 import static org.assertj.core.api.Assertions.assertThat;
 
 // used example code funiversity

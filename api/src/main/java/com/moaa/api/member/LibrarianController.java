@@ -25,7 +25,7 @@ public class LibrarianController {
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public LibrarianDTO registerLibrarian (@RequestBody Librarian librarian){
-        return librarianMapper.toDto(librarianService.createLibrarian(librarian));
+    public LibrarianDTO registerLibrarian (@RequestBody LibrarianDTO librarianDTO){
+        return librarianMapper.toDto(librarianService.createLibrarian(librarianMapper.toDomain(librarianDTO)));
     }
 }

@@ -14,9 +14,9 @@ import java.util.UUID;
 @Named
 public class BookService {
 
-    @Inject
     private final BookRepository bookRepository;
 
+    @Inject
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }

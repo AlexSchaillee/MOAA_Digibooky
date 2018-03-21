@@ -23,7 +23,7 @@ public class LendContractController {
 
     @PostMapping(path="/{memberId}/{bookIsbn}" , produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public LendContractDto lendContractDto(@RequestParam("memberId") String memberId, @RequestParam("bookIsbn")String bookIsbn){
+    public LendContractDto lendContractDto(@PathVariable("memberId") String memberId, @PathVariable("bookIsbn")String bookIsbn){
         return lendContractMapper.toDto(lendService.addLendContract(memberId, bookIsbn));
     }
 }

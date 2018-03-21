@@ -13,12 +13,14 @@ public class Book {
     private String title;
     private Author author;
     private Isbn isbn;
+    private Long lendingPeriodInDays;
 
     private Book(String title, Author author, Isbn isbn) {
         id = UUID.randomUUID();
         this.title = title;
         this.author = author;
         this.isbn = isbn;
+        this.lendingPeriodInDays = null;
     }
 
     public UUID getId() {

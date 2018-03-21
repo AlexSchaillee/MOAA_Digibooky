@@ -22,7 +22,7 @@ public class BookRepository {
     }
 
     public Book getBook(String isbnString) {
-        Book book = bookDatabase.getBooks().stream()
+        Book book = getBooks().stream()
                 .filter(b->b.getIsbn().equals(Isbn.convertStringToIsbn(isbnString)))
                 .findFirst()
                 .get();

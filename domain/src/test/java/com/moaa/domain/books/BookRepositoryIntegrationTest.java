@@ -126,7 +126,7 @@ public class BookRepositoryIntegrationTest {
     }
 
     */
-    @SpringBootApplication
+    @SpringBootApplication(scanBasePackageClasses = BookRepository.class)
     public static class BookRepositoryIntegrationTestRunner {
 
         public static void main(String[] args) {

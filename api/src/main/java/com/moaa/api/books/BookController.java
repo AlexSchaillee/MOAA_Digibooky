@@ -44,7 +44,7 @@ public class BookController {
 
     @GetMapping(path = "/search-book-by-isbn", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> searchBookByIsbnPart(@PathVariable("isbnPart") String isbnPartValue) {
+    public List<BookDto> searchBookByIsbnPart(@RequestParam("isbnPart") String isbnPartValue) {
         List<BookDto> booksDto = new ArrayList<>();
         for (Book book : bookService.searchBookByIsbnPart(isbnPartValue)) {
             booksDto.add(bookMapper.toDto(book));

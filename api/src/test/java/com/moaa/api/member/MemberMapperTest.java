@@ -20,7 +20,7 @@ public class MemberMapperTest {
     }
 
     @Test
-    public void toDto() {
+    public void toDto_givenMember_thenMapAllFieldsToMemberDto() {
         Member member = buildMember()
                 .withInss("111")
                 .withFirstName("Alex")
@@ -60,7 +60,7 @@ public class MemberMapperTest {
     }
 
     @Test
-    public void toDomain() {
+    public void toDomain_givenMemberDto_thenMapAllFieldsToMember() {
         MemberDTO memberDTO = MemberDTO.memberDTO()
                 .withInss("111")
                 .withFirstName("Alex")

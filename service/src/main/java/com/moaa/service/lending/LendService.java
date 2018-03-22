@@ -73,4 +73,8 @@ public class LendService {
                 .map(LendContract::getBook)
                 .collect(Collectors.toList());
     }
+
+    public List<LendContract> getAllLendContracts(){
+        return lendRepository.getLendContractList();
+    }
 }

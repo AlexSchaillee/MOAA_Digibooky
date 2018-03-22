@@ -2,6 +2,7 @@ package com.moaa.domain.member;
 
 import com.moaa.domain.member.email.Email;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Admin {
@@ -22,6 +23,10 @@ public class Admin {
         return id;
     }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -32,6 +37,23 @@ public class Admin {
 
     public Email getEmail() {
         return email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Admin)) return false;
+        Admin admin = (Admin) o;
+        return Objects.equals(id, admin.id) &&
+                Objects.equals(firstName, admin.firstName) &&
+                Objects.equals(lastName, admin.lastName) &&
+                Objects.equals(email, admin.email);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, firstName, lastName, email);
     }
 
     public static class AdminBuilder {

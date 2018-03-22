@@ -31,13 +31,21 @@ public class BookDatabase {
         return book;
     }
 
-    public void delete(Book book) {
-        books.remove(book);
-        softDeletedBooks.add(book);
+    public void delete(List<Book> listOfBooksToSoftDelete) {
+        for (int index=0; index<listOfBooksToSoftDelete.size(); index++) {
+            books.remove(listOfBooksToSoftDelete.get(index));
+            softDeletedBooks.add(listOfBooksToSoftDelete.get(index));
+        }
     }
 
     public void clear() {
         books.clear();
         softDeletedBooks.clear();
+    }
+
+    public Book updateBook(int index, String newTitle, Author newAuthor) {
+        books.get(index).setTitle(newTitle);
+        books.get(index).setAuthor(newAuthor);
+        return books.get(index);
     }
 }

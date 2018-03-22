@@ -12,7 +12,7 @@ public class Book {
     private UUID id;
     private String title;
     private Author author;
-    private Isbn isbn;
+    private final Isbn isbn;
     private Long lendingPeriodInDays;
 
     private Book(String title, Author author, Isbn isbn) {
@@ -41,6 +41,14 @@ public class Book {
 
     public Isbn getIsbn() {
         return isbn;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.moaa.domain.books.properties;
 
+import java.util.Objects;
 import java.util.Random;
 
 import static java.lang.String.format;
@@ -65,5 +66,16 @@ public class Isbn {
         return isbnNumber;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Isbn isbn = (Isbn) o;
+        return Objects.equals(isbnNumber, isbn.isbnNumber);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(isbnNumber);
+    }
 }

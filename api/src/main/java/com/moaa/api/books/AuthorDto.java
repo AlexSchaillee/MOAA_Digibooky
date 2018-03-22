@@ -1,7 +1,5 @@
 package com.moaa.api.books;
 
-import javax.inject.Named;
-
 public class AuthorDto {
 
     private String firstName;
@@ -11,12 +9,12 @@ public class AuthorDto {
         return new AuthorDto();
     }
 
-    public AuthorDto withFirstname(String firstName){
+    public AuthorDto withFirstName(String firstName){
         this.firstName = firstName;
         return this;
     }
 
-    public AuthorDto withLastname(String lastName){
+    public AuthorDto withLastName(String lastName){
         this.lastName = lastName;
         return this;
     }

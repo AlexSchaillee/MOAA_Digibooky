@@ -3,7 +3,7 @@ package com.moaa.api.books;
 public class BookDto {
 
     private String title;
-    private AuthorDto authorDto;
+    private AuthorDto author;
     private String isbn;
 
     public static BookDto bookDto(){
@@ -16,7 +16,7 @@ public class BookDto {
     }
 
     public BookDto withAuthorDto(AuthorDto authorDto){
-        this.authorDto = authorDto;
+        this.author = authorDto;
         return this;
     }
 
@@ -29,8 +29,8 @@ public class BookDto {
         return title;
     }
 
-    public AuthorDto getAuthorDto() {
-        return authorDto;
+    public AuthorDto getAuthor() {
+        return author;
     }
 
     public String getIsbn() {

@@ -32,8 +32,4 @@ public class BookRepository {
     public void clearDatabase() {
         bookDatabase.clear();
     }
-
-    public Book updateBook(int index, String newTitle, Author newAuthor) {
-        return bookDatabase.updateBook(index, newTitle, newAuthor);
-    }
 }

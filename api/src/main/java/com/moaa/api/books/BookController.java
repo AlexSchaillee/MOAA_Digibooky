@@ -2,9 +2,11 @@ package com.moaa.api.books;
 
 // copied code from funiversity example
 
+import com.moaa.api.member.MemberMapper;
 import com.moaa.domain.books.Book;
-import com.moaa.domain.books.properties.Author;
+import com.moaa.domain.member.Member;
 import com.moaa.service.books.BookService;
+import com.moaa.service.lending.LendService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +23,15 @@ public class BookController {
 
     private BookService bookService;
     private BookMapper bookMapper;
+    private LendService lendService;
+    private MemberMapper memberMapper;
 
     @Inject
-    public BookController(BookService bookService, BookMapper bookMapper) {
+    public BookController(BookService bookService, BookMapper bookMapper, LendService lendService, MemberMapper memberMapper) {
         this.bookService = bookService;
         this.bookMapper = bookMapper;
+        this.lendService = lendService;
+        this.memberMapper = memberMapper;
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
@@ -45,7 +51,7 @@ public class BookController {
 
     @GetMapping(path = "/{isbn}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getBooksByIsbn(@PathVariable("isbnPart") String isbnPartValue) {
+    public List<BookDto> getBooksByIsbn(@PathVariable("isbn") String isbnPartValue) {
         List<BookDto> foundBooks = bookMapper.toDto(bookService.getBooksByIsbn(isbnPartValue));
         if (foundBooks.isEmpty()) {
             throw new IllegalArgumentException("No books found with given ISBN.");
@@ -63,6 +69,15 @@ public class BookController {
         return foundBooks;
     }
 
+    @GetMapping(path = "/search", params = "isbn", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Member> getBorrowerOfBook(@RequestParam("isbn") String isbn) {
+        if (lendService.getBorrowerOfBook(isbn).isEmpty()) {
+            throw new IllegalArgumentException("This book is not rented out.");
+        }
+        return getBorrowerOfBook(isbn);
+    }
+
     @GetMapping(path = "/search", params = "author", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByAuthorName(@RequestParam("author") String authorNamePartValue) {
@@ -75,21 +90,18 @@ public class BookController {
 
     @PutMapping(path = "/{isbn}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> updateBook(@PathVariable String isbnString
-                            , @RequestBody Author newAuthor
-                            , @RequestBody String newTitle) {
-        return bookMapper
-                .toDto(bookService.updateBook(isbnString, newTitle, newAuthor));
+    public List<BookDto> updateBook(@PathVariable String isbnString, @RequestBody Book newBook) {
+        List<BookDto> updatedBooks = bookMapper.toDto(bookService.updateBook(isbnString, newBook));
+        if (updatedBooks.size() == 0) {
+            throw new IllegalArgumentException("No book found with given ISBN to update.");
+        }
+        return updatedBooks;
     }
 
     @DeleteMapping(path = "/{isbn}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(@PathVariable String isbn) {
-        try {
-            bookService.deleteBook(isbn);
-        } catch (IllegalArgumentException e) {
-            System.out.println("No book found with given ISBN.");
-        }
+        bookService.deleteBook(isbn);
     }
 
     /*@GetMapping(path = "/{title}", produces = APPLICATION_JSON_VALUE)

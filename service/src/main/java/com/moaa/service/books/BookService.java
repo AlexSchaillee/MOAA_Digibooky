@@ -55,10 +55,11 @@ public class BookService {
         return foundBooks;
     }
 
-    public List<Book> updateBook(String isbnString, String newTitle, Author newAuthor) {
+    public List<Book> updateBook(String isbnString, Book book) {
         List<Book> booksToUpdate = getBooksByIsbn(isbnString);
         for (int index=0; index<booksToUpdate.size(); index++) {
-            bookRepository.updateBook(index, newTitle, newAuthor);
+            booksToUpdate.get(index).setAuthor(book.getAuthor());
+            booksToUpdate.get(index).setTitle(book.getTitle());
         }
         return booksToUpdate;
     }
@@ -74,9 +75,6 @@ public class BookService {
 
     public void deleteBook(String isbnString) throws IllegalArgumentException{
         List<Book> booksToSoftDelete = new ArrayList<>();
-        if (getBooksByIsbn(isbnString).size() == 0) {
-            throw new IllegalArgumentException("No book found with given ISBN.");
-        }
         booksToSoftDelete.addAll(getBooksByIsbn(isbnString));
         bookRepository.deleteBook(booksToSoftDelete);
     }

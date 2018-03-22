@@ -3,6 +3,7 @@ package com.moaa.service.lending;
 import com.moaa.domain.books.Book;
 import com.moaa.domain.lending.LendContract;
 import com.moaa.domain.lending.LendRepository;
+import com.moaa.domain.member.Member;
 import com.moaa.service.books.BookService;
 import com.moaa.service.member.MemberService;
 
@@ -64,6 +65,14 @@ public class LendService {
         return lendRepository.getLendContractList().stream()
                 .filter(e->memberId.equals(e.getMember().getId().toString()))
                 .map(LendContract::getBook)
+                .collect(Collectors.toList());
+    }
+
+    // copy of getBooksLentByMember
+    public List<Member> getBorrowerOfBook(String isbn) {
+        return lendRepository.getLendContractList().stream()
+                .filter(lendContract->lendContract.getBook().getIsbn().getIsbnNumber().equals(isbn))
+                .map(LendContract::getMember)
                 .collect(Collectors.toList());
     }
 

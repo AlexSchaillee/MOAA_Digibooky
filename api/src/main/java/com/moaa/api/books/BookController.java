@@ -69,15 +69,6 @@ public class BookController {
         return foundBooks;
     }
 
-    @GetMapping(path = "/search", params = "isbn", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public List<Member> getBorrowerOfBook(@RequestParam("isbn") String isbn) {
-        if (lendService.getBorrowerOfBook(isbn).isEmpty()) {
-            throw new IllegalArgumentException("This book is not rented out.");
-        }
-        return getBorrowerOfBook(isbn);
-    }
-
     @GetMapping(path = "/search", params = "author", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooksByAuthorName(@RequestParam("author") String authorNamePartValue) {
@@ -88,14 +79,22 @@ public class BookController {
         return foundBooks;
     }
 
-    @PutMapping(path = "/{isbn}", consumes = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> updateBook(@PathVariable String isbnString, @RequestBody Book newBook) {
-        List<BookDto> updatedBooks = bookMapper.toDto(bookService.updateBook(isbnString, newBook));
+    @PutMapping(path = "/{isbn}")
+    public List<BookDto> updateBook(@PathVariable("isbn") String isbnString, @RequestBody BookDto newBook) {
+        List<BookDto> updatedBooks = bookMapper.toDto(bookService.updateBook(isbnString, bookMapper.toDomain(newBook)));
         if (updatedBooks.size() == 0) {
             throw new IllegalArgumentException("No book found with given ISBN to update.");
         }
         return updatedBooks;
+    }
+
+    @GetMapping(path = "/search", params = "isbn", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Member> getBorrowerOfBook(@RequestParam("isbn") String isbn) {
+        if (lendService.getBorrowerOfBook(isbn).isEmpty()) {
+            throw new IllegalArgumentException("This book is not rented out.");
+        }
+        return lendService.getBorrowerOfBook(isbn);
     }
 
     @DeleteMapping(path = "/{isbn}")

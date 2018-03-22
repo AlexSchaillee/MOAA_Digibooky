@@ -23,7 +23,7 @@ public class MemberDataBaseTest {
     private MemberRepository memberRepository;
 
     @Test
-    public void unitTest_addMember_GivenAMember_AddToMemberList() {
+    public void unitTest_addMember_givenAMember_AddToMemberList() {
         //GIVEN
         Member member = Member.MemberBuilder.buildMember()
                 .withFirstName("Alex")

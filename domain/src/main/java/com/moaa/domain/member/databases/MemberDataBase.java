@@ -37,7 +37,7 @@ public class MemberDataBase {
     private boolean memberListContainsEmail(Email email) {
         boolean containsEmail=false;
         for (Member item:memberList) {
-            if (item.getEmail().equals(email)) {containsEmail=true;}
+            if (item.getEmail().getEmailAddress().equals(email.getEmailAddress())) {containsEmail=true;}
         }
         return containsEmail;
     }

@@ -17,7 +17,7 @@ public class MemberRepository {
         this.memberDataBase = memberDataBase;
     }
 
-    public Member createMember (Member member){
+    public Member createMember (Member member)throws IllegalArgumentException{
         return memberDataBase.addMember(member);
     }
 

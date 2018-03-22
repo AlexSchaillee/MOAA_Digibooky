@@ -12,7 +12,7 @@ public class Book {
     private UUID id;
     private String title;
     private Author author;
-    private Isbn isbn;
+    private final Isbn isbn;
     private Long lendingPeriodInDays;
 
     private Book(String title, Author author, Isbn isbn) {

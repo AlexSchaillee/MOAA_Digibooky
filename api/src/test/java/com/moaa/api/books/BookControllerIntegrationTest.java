@@ -1,11 +1,14 @@
-/*
 package com.moaa.api.books;
 
+import com.moaa.api.member.MemberMapper;
 import com.moaa.domain.books.Book;
 import com.moaa.domain.books.BookRepository;
 import com.moaa.domain.books.properties.Isbn;
+import com.moaa.domain.lending.LendRepository;
+import com.moaa.domain.member.MemberRepository;
 import com.moaa.service.books.BookService;
-import org.junit.Before;
+import com.moaa.service.lending.LendService;
+import com.moaa.service.member.MemberService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +18,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,11 +41,6 @@ public class BookControllerIntegrationTest {
     private BookService bookService;
     @Inject
     private BookMapper bookMapper;
-
-    @Before
-    public void clearDatabase() {
-        bookService.clearDatabase();
-    }
 
     private List<Book> populateBookDatabase() {
         Book book1 = book().withAuthor(author()
@@ -73,7 +70,8 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void getBooks_givenAnEmptyDatabase_thenReturnAnEmptyArrayList(){
-        //given
+        // given
+        bookService.clearDatabase();
 
         //when
         BookDto[] bookDtos = new TestRestTemplate()
@@ -85,6 +83,9 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void getBooks_givenANonEmptyDatabase_thenReturnTheListOfBooks(){
+
+        bookService.clearDatabase();
+
         bookService.createBook(populateBookDatabase().get(0));
         bookService.createBook(populateBookDatabase().get(1));
 
@@ -95,7 +96,9 @@ public class BookControllerIntegrationTest {
     }
 
 
-    @SpringBootApplication(scanBasePackageClasses = {BookMapper.class, BookService.class, BookRepository.class})
+    @SpringBootApplication(scanBasePackageClasses = {BookMapper.class, BookService.class, BookRepository.class
+                                                    , LendService.class, LendRepository.class, MemberService.class
+                                                    , MemberRepository.class, MemberMapper.class})
     public static class BookControllerIntegrationTestRunner {
 
         public static void main(String[] args) {
@@ -104,4 +107,3 @@ public class BookControllerIntegrationTest {
     }
 
 }
-*/

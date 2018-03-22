@@ -88,6 +88,7 @@ $(document).ready(function () {
     showAllBooks();
     searchForIsbn();
     addARandomBook();
+
 });
 
 /**
@@ -136,6 +137,7 @@ function getAndRenderBooks(url) {
         if (data.length > 0) {
             data.forEach(function (item) {
                 $("#injectable").append(VIEW.renderSingleItem(item), null);
+                deleteBookListener(item);
             });
         } else {
             $("#injectable").append("<p>We found no books... </p>", null);
@@ -152,6 +154,27 @@ function getAndRenderBooks(url) {
         });
 }
 
+function deleteBookListener(book) {
+    let bookDeleteButton = "#book" + book.isbn;
+    console.log(bookDeleteButton);
+    $(bookDeleteButton).click(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'DELETE',
+            url: BOOKS_RESOURCE + "/" + book.isbn,
+            success: function () {
+                showDialog("Book with ISBN " + book.isbn + " deleted!");
+                showAllBooks();
+            },
+            error: function (data) {
+                showDialog("Something went wrong: <br/>" + data.responseJSON.message)
+            },
+            contentType: "application/json",
+            dataType: 'json'
+        });
+    });
+}
+
 function showAllBooks() {
     getAndRenderBooks(BOOKS_RESOURCE);
 }
@@ -160,7 +183,7 @@ function getRandomBookDto() {
     return `{
         "isbn": "${ISBNS[Math.floor(Math.random() * 15)]}", 
         "title": "${TITLES[Math.floor(Math.random() * 15)]}",
-        "authorDto": {
+        "author": {
             "firstName": "${AUTHOR_FIRSTNAMES[Math.floor(Math.random() * 15)]}", 
             "lastName": "${AUTHOR_LASTNAMES[Math.floor(Math.random() * 15)]}"
         }
@@ -179,8 +202,9 @@ const VIEW = {
                       <img class="card-img-top img-fluid" src="static/img/cats/cat${Math.floor(Math.random() * 10)}.jpg" alt="${book.title}">
                       <div class="card-body">
                         <h4 class="card-title">${book.title}</h4>
-                        <h5 class="card-subtitle mb-2 text-muted">${book.authorDto.firstName} ${book.authorDto.lastName}</h5>
+                        <h5 class="card-subtitle mb-2 text-muted">${book.author.firstName} ${book.author.lastName}</h5>
                         <p class="card-text">ISBN: ${book.isbn}</p>
+                        <button class="btn btn-danger" id="book${book.isbn}">Delete</button>
                       </div>
                     </div>
                 </div>

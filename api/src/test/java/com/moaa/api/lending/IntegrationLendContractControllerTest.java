@@ -53,7 +53,10 @@
 //    private MemberMapper memberMapper;
 //    @Inject
 //    private LendRepository lendRepository;
-//
+//    @Inject
+//    private MemberRepository memberRepository;
+//    @Inject
+//    private BookRepository bookRepository;
 //
 //    @Test
 //    public void newlendContractDto_givenAmemberIdAndbookIsbn_ReturnsALendContractDto() {
@@ -84,8 +87,8 @@
 //        //GIVEN
 //        /*new contract through the webinterface*/
 //        LendContractDto receivedLendContractDto = new TestRestTemplate()
-//                .postForObject(format("http://localhost:%s/%s", port, "renting")
-//                        , ("?memberId=" + member.getId().toString() + "&bookIsbn=" + book.getIsbn().toString())
+//                .postForObject(format("http://localhost:%s/%s%s", port, "renting", "?memberId=" + member.getId().toString() + "&bookIsbn=" + book.getIsbn().toString())
+//                        , null
 //                        , LendContractDto.class);
 //
 //        LendContractDto expectedLendContractDto = lendContractMapper.toDto(lendService.getAllLendContracts().get(0));

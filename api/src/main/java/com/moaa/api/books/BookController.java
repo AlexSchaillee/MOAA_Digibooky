@@ -76,10 +76,20 @@ public class BookController {
     @PutMapping(path = "/{isbn}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public List<BookDto> updateBook(@PathVariable String isbnString
-                            , @RequestAttribute Author newAuthor
-                            , @RequestAttribute String newTitle) {
+                            , @RequestBody Author newAuthor
+                            , @RequestBody String newTitle) {
         return bookMapper
                 .toDto(bookService.updateBook(isbnString, newTitle, newAuthor));
+    }
+
+    @DeleteMapping(path = "/{isbn}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBook(@PathVariable String isbn) {
+        try {
+            bookService.deleteBook(isbn);
+        } catch (IllegalArgumentException e) {
+            System.out.println("No book found with given ISBN.");
+        }
     }
 
     /*@GetMapping(path = "/{title}", produces = APPLICATION_JSON_VALUE)
@@ -105,11 +115,6 @@ public class BookController {
         return bookMapper
                 .toDto(bookService.searchBookByTitlePart(titlePart));
     }
-
-    @DeleteMapping(path = "/{isbnString}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBook(@PathVariable String isbnString) {
-        bookService.deleteBoook(isbnString);
-    }*/
+*/
 
 }

@@ -25,14 +25,9 @@ public class BookRepository {
         return bookDatabase.createBook(book);
     }
 
-    /*public void deleteBook(String isbnString) {
-        try {
-            for (Book book : searchBookByIsbnPart(isbnString))
-            bookDatabase.delete(book);
-        } catch (IllegalArgumentException e) {
-            System.out.println("No book found with the given ISBN.");
-        }
-    }*/
+    public void deleteBook(List<Book> listOfBooksToSoftDelete) {
+        bookDatabase.delete(listOfBooksToSoftDelete);
+    }
 
     public void clearDatabase() {
         bookDatabase.clear();

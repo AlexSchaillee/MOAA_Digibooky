@@ -72,9 +72,14 @@ public class BookService {
                 .contains(authorNamePart);
     }
 
-    /*public void deleteBook(String isbnString) {
-        bookRepository.deleteBook(isbnString);
-    }*/
+    public void deleteBook(String isbnString) throws IllegalArgumentException{
+        List<Book> booksToSoftDelete = new ArrayList<>();
+        if (getBooksByIsbn(isbnString).size() == 0) {
+            throw new IllegalArgumentException("No book found with given ISBN.");
+        }
+        booksToSoftDelete.addAll(getBooksByIsbn(isbnString));
+        bookRepository.deleteBook(booksToSoftDelete);
+    }
 
     public void clearDatabase() {
         bookRepository.clearDatabase();

@@ -1,5 +1,6 @@
 package com.moaa.service.lending;
 
+import com.moaa.domain.books.Book;
 import com.moaa.domain.lending.LendContract;
 import com.moaa.domain.lending.LendRepository;
 import com.moaa.service.books.BookService;
@@ -8,6 +9,8 @@ import com.moaa.service.member.MemberService;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -55,5 +58,19 @@ public class LendService {
         }
 
         return message;
+    }
+
+    public List<Book> getBooksLentByMember(String memberId) {
+        return lendRepository.getLendContractList().stream()
+                .filter(e->memberId.equals(e.getMember().getId().toString()))
+                .map(LendContract::getBook)
+                .collect(Collectors.toList());
+    }
+
+    public List<Book> getAllOverdueBooks() {
+        return lendRepository.getLendContractList().stream()
+                .filter(e->LocalDate.now().isAfter(e.getDueDate()))
+                .map(LendContract::getBook)
+                .collect(Collectors.toList());
     }
 }

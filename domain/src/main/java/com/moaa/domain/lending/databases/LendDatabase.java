@@ -25,6 +25,10 @@ public class LendDatabase {
             throw new IllegalArgumentException(
                     "Book " + lendContract.getBook().getTitle() + " already lent");
         }
+        if (lendContractListContainsLendId(lendContract)) {
+            throw new IllegalArgumentException(
+                    "LendContract with Id " + lendContract.getLendId() + " already exists in database");
+        }
         lendContractList.add(lendContract);
         return lendContract;
     }
@@ -37,5 +41,23 @@ public class LendDatabase {
             }
         }
         return contains;
+    }
+
+    private boolean lendContractListContainsLendId(LendContract lendContract) {
+        boolean contains = false;
+        for (LendContract item : lendContractList) {
+            if (item.getLendId().equals(lendContract.getLendId())) {
+                contains = true;
+            }
+        }
+        return contains;
+    }
+
+    public LendContract removeLendContract(LendContract lendContract) throws IllegalArgumentException {
+        if (!lendContractList.contains(lendContract)) {
+            throw new IllegalArgumentException("LendContract with id " + lendContract.getLendId() + " not found");
+        }
+        lendContractList.remove(lendContract);
+        return lendContract;
     }
 }

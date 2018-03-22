@@ -1,5 +1,6 @@
 package com.moaa.service.lending;
 
+import com.moaa.domain.books.Book;
 import com.moaa.domain.lending.LendContract;
 import com.moaa.domain.lending.LendRepository;
 import com.moaa.service.books.BookService;
@@ -7,6 +8,11 @@ import com.moaa.service.member.MemberService;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Named
 public class LendService {
@@ -33,5 +39,38 @@ public class LendService {
                 .withMember(memberService.getMemberById(memberId))
                 .build());
 
+    }
+
+    public String removeContract(Integer lendId) throws IllegalArgumentException {
+        return getOverdueMessage(lendRepository.removeContract(
+                lendRepository.getLendContractList().stream()
+                        .filter(e -> lendId.equals(e.getLendId()))
+                        .findFirst()
+                        .orElse(null)));
+    }
+
+    private String getOverdueMessage(LendContract lendContract) {
+        String message = "Thx for returning your book in time";
+        if (LocalDate.now().isAfter(lendContract.getDueDate())) {
+            message = "Your book is "
+                    + DAYS.between(lendContract.getDueDate(), LocalDate.now())
+                    + " days overdue";
+        }
+
+        return message;
+    }
+
+    public List<Book> getBooksLentByMember(String memberId) {
+        return lendRepository.getLendContractList().stream()
+                .filter(e->memberId.equals(e.getMember().getId().toString()))
+                .map(LendContract::getBook)
+                .collect(Collectors.toList());
+    }
+
+    public List<Book> getAllOverdueBooks() {
+        return lendRepository.getLendContractList().stream()
+                .filter(e->LocalDate.now().isAfter(e.getDueDate()))
+                .map(LendContract::getBook)
+                .collect(Collectors.toList());
     }
 }

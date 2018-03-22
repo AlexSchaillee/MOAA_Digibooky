@@ -1,7 +1,6 @@
 package com.moaa.service.lending;
 
 import com.moaa.domain.books.Book;
-import com.moaa.domain.books.properties.BookDetails;
 import com.moaa.domain.lending.LendContract;
 import com.moaa.domain.lending.LendRepository;
 import com.moaa.domain.member.Member;
@@ -11,7 +10,6 @@ import com.moaa.service.member.MemberService;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

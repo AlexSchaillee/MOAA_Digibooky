@@ -51,7 +51,7 @@ public class BookController {
 
     @GetMapping(path = "/{isbn}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<BookDto> getBooksByIsbn(@PathVariable("isbnPart") String isbnPartValue) {
+    public List<BookDto> getBooksByIsbn(@PathVariable("isbn") String isbnPartValue) {
         List<BookDto> foundBooks = bookMapper.toDto(bookService.getBooksByIsbn(isbnPartValue));
         if (foundBooks.isEmpty()) {
             throw new IllegalArgumentException("No books found with given ISBN.");

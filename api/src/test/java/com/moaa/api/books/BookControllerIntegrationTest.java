@@ -74,7 +74,6 @@ public class BookControllerIntegrationTest {
     @Test
     public void getBooks_givenAnEmptyDatabase_thenReturnAnEmptyArrayList(){
         //given
-        bookService.clearDatabase();
 
         //when
         BookDto[] bookDtos = new TestRestTemplate()
@@ -86,7 +85,6 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void getBooks_givenANonEmptyDatabase_thenReturnTheListOfBooks(){
-        bookService.clearDatabase();
         bookService.createBook(populateBookDatabase().get(0));
         bookService.createBook(populateBookDatabase().get(1));
 
@@ -105,4 +103,5 @@ public class BookControllerIntegrationTest {
         }
     }
 
-}*/
+}
+*/

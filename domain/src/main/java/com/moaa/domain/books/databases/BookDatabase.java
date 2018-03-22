@@ -40,4 +40,10 @@ public class BookDatabase {
         books.clear();
         softDeletedBooks.clear();
     }
+
+    public Book updateBook(int index, String newTitle, Author newAuthor) {
+        books.get(index).setTitle(newTitle);
+        books.get(index).setAuthor(newAuthor);
+        return books.get(index);
+    }
 }

@@ -47,24 +47,34 @@ public class BookService {
 
     public List<Book> getBooksByAuthorName(String authorNamePart) {
         List<Book> foundBooks = new ArrayList<>();
-        for (Book book : getBooks()) {
-            if (book.getAuthor().getFirstName().concat(book.getAuthor().getLastName()).contains(authorNamePart)
-                    || book.getAuthor().getLastName().concat(book.getAuthor().getFirstName()).contains(authorNamePart)) {
-                foundBooks.add(book);
+        for (int index=0; index<getBooks().size(); index++) {
+            if (bookAuthorContainsAuthorNamePart(authorNamePart, index)) {
+                foundBooks.add(getBooks().get(index));
             }
         }
         return foundBooks;
     }
 
-    /*public void deleteBoook(String isbnString) {
+    public List<Book> updateBook(String isbnString, String newTitle, Author newAuthor) {
+        List<Book> booksToUpdate = getBooksByIsbn(isbnString);
+        for (int index=0; index<booksToUpdate.size(); index++) {
+            bookRepository.updateBook(index, newTitle, newAuthor);
+        }
+        return booksToUpdate;
+    }
+
+    private boolean bookAuthorContainsAuthorNamePart(String authorNamePart, int index) {
+        return getBooks().get(index).getAuthor().getFirstName()
+                .concat(getBooks().get(index).getAuthor().getLastName())
+                .contains(authorNamePart)
+                || getBooks().get(index).getAuthor().getLastName()
+                .concat(getBooks().get(index).getAuthor().getFirstName())
+                .contains(authorNamePart);
+    }
+
+    /*public void deleteBook(String isbnString) {
         bookRepository.deleteBook(isbnString);
     }*/
-
-/*
-    public Book updateBook(String isbnString, Book book) {
-        return bookRepository.updateBook(isbnString, book);
-    }
-*/
 
     public void clearDatabase() {
         bookRepository.clearDatabase();

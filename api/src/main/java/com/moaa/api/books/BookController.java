@@ -3,6 +3,7 @@ package com.moaa.api.books;
 // copied code from funiversity example
 
 import com.moaa.domain.books.Book;
+import com.moaa.domain.books.properties.Author;
 import com.moaa.service.books.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -72,6 +73,15 @@ public class BookController {
         return foundBooks;
     }
 
+    @PutMapping(path = "/{isbn}", consumes = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<BookDto> updateBook(@PathVariable String isbnString
+                            , @RequestAttribute Author newAuthor
+                            , @RequestAttribute String newTitle) {
+        return bookMapper
+                .toDto(bookService.updateBook(isbnString, newTitle, newAuthor));
+    }
+
     /*@GetMapping(path = "/{title}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BookDto getBookByTitle(@PathVariable("title") String title) {
@@ -94,13 +104,6 @@ public class BookController {
     public BookDto searchBookByTitlePart(@RequestParam("titlePart") String titlePart) {
         return bookMapper
                 .toDto(bookService.searchBookByTitlePart(titlePart));
-    }
-
-    /*@PutMapping(path = "/{isbn}", consumes = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public BookDto updateBook(@PathVariable String isbnString, @RequestBody BookDto bookDto) {
-        return bookMapper
-                .toDto(bookService.updateBook(isbnString, bookMapper.toDomain(bookDto)));
     }
 
     @DeleteMapping(path = "/{isbnString}")

@@ -34,12 +34,11 @@ public class BookRepository {
         }
     }*/
 
-    /*public Book updateBook(String isbnString, Book book) {
-        deleteBook(isbnString);
-        return createBook(book);
-    }*/
-
     public void clearDatabase() {
         bookDatabase.clear();
+    }
+
+    public Book updateBook(int index, String newTitle, Author newAuthor) {
+        return bookDatabase.updateBook(index, newTitle, newAuthor);
     }
 }

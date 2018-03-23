@@ -31,6 +31,11 @@ public class BookDatabase {
         return book;
     }
 
+    public List<Book> createBook(List<Book> books) {
+        books.addAll(books);
+        return books;
+    }
+
     public void delete(List<Book> listOfBooksToSoftDelete) {
         for (int index=0; index<listOfBooksToSoftDelete.size(); index++) {
             books.remove(listOfBooksToSoftDelete.get(index));
@@ -47,5 +52,13 @@ public class BookDatabase {
         books.get(index).setTitle(newTitle);
         books.get(index).setAuthor(newAuthor);
         return books.get(index);
+    }
+
+    public List<Book> getSoftDeletedBooks() {
+        return unmodifiableList(softDeletedBooks);
+    }
+
+    public void deleteSoftDeletedBooks(List<Book> booksToRestore) {
+        softDeletedBooks.removeAll(booksToRestore);
     }
 }

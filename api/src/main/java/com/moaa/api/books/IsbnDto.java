@@ -1,5 +1,7 @@
 package com.moaa.api.books;
 
+import java.util.Objects;
+
 public class IsbnDto {
 
     private String isbnNumber;
@@ -15,5 +17,19 @@ public class IsbnDto {
 
     public String getIsbnNumber() {
         return isbnNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IsbnDto isbnDto = (IsbnDto) o;
+        return Objects.equals(isbnNumber, isbnDto.isbnNumber);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(isbnNumber);
     }
 }

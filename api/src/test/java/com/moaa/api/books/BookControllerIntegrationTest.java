@@ -2,7 +2,6 @@
 package com.moaa.api.books;
 
 import com.moaa.domain.books.Book;
-import com.moaa.domain.books.BookRepository;
 import com.moaa.domain.books.properties.Isbn;
 import com.moaa.service.books.BookService;
 import org.junit.Before;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +39,7 @@ public class BookControllerIntegrationTest {
     private BookMapper bookMapper;
 
     @Before
-    public void clearDatabase() {
+    public void clearBookDatabase() {
         bookService.clearDatabase();
     }
 
@@ -73,8 +71,8 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void getBooks_givenAnEmptyDatabase_thenReturnAnEmptyArrayList(){
-        //given
-
+        // given
+            // empty book database
         //when
         BookDto[] bookDtos = new TestRestTemplate()
                 .getForObject(format("http://localhost:%s/%s", port, "books"), BookDto[].class);
@@ -95,7 +93,70 @@ public class BookControllerIntegrationTest {
     }
 
 
-    @SpringBootApplication(scanBasePackageClasses = {BookMapper.class, BookService.class, BookRepository.class})
+
+    @Test
+    public void getBookByIsbn_givenAnIsbnOfAPresentBookInTheBookDatabase_thenReturnListOfPresentBooksWithThisIsbn(){
+        // given
+        Isbn isbn = Isbn.create();
+        Book book1 = book().withAuthor(author()
+                .withFirstName("Jan1")
+                .withLastName("Janssens1")
+                .build())
+                .withIsbn(isbn)
+                .withTitle("title1")
+                .build();
+        bookService.createBook(book1);
+
+        //when
+        BookDto[] bookDtos = new TestRestTemplate()
+                .getForObject(format("http://localhost:%s/%s/%s", port, "books"
+                        , isbn.getIsbnNumber()), BookDto[].class);
+
+        //then
+        assertThat(bookDtos).containsExactly(bookMapper.toDto(book1));
+    }
+
+    @Test
+    public void getBookByIsbn_givenAnIsbnOfANonPresentBookInTheBookDatabase_thenThrowException(){
+        // given
+
+        //when
+        BookDto[] bookDtos = new TestRestTemplate()
+                .getForObject(format("http://localhost:%s/%s/%s", port, "books", "isbnDummy"), BookDto[].class);
+
+        //then
+        assertThat(bookDtos).isEmpty();
+    }
+
+
+
+
+    @Test
+    public void getBookByTitle_givenATitleOfAPresentBookInTheBookDatabase_thenReturnListOfPresentBooksWithThisTitle(){
+        // given
+        Book book1 = book().withAuthor(author()
+                .withFirstName("Jan1")
+                .withLastName("Janssens1")
+                .build())
+                .withIsbn(Isbn.create())
+                .withTitle("title1")
+                .build();
+        bookService.createBook(book1);
+
+        //when
+        BookDto[] bookDtos = new TestRestTemplate()
+                .getForObject(format("http://localhost:%s/%s/%s", port, "books"
+                        , "search?title=title1"), BookDto[].class);
+
+        //then
+        assertThat(bookDtos).containsExactly(bookMapper.toDto(book1));
+    }
+
+
+
+
+    @SpringBootApplication(scanBasePackages = {"com.moaa.api", "com.moaa.service", "com.moaa.domain.books"
+                                                , "com.moaa.domain.lending"})
     public static class BookControllerIntegrationTestRunner {
 
         public static void main(String[] args) {
@@ -104,4 +165,6 @@ public class BookControllerIntegrationTest {
     }
 
 }
+
+
 */

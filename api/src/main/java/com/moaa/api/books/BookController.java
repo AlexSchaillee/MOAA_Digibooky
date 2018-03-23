@@ -103,6 +103,12 @@ public class BookController {
         bookService.deleteBook(isbn);
     }
 
+   /* @PutMapping(path = "/{isbn}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void restoreBook(@PathVariable String isbn) {
+        bookService.restoreBook(isbn);
+    }*/
+
     /*@GetMapping(path = "/{title}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BookDto getBookByTitle(@PathVariable("title") String title) {

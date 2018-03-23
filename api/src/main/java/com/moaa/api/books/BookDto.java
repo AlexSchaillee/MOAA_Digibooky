@@ -1,10 +1,12 @@
 package com.moaa.api.books;
 
+import java.util.Objects;
+
 public class BookDto {
 
     private String title;
     private AuthorDto author;
-    private String isbn;
+    private IsbnDto isbn;
 
     public static BookDto bookDto(){
         return new BookDto();
@@ -20,7 +22,7 @@ public class BookDto {
         return this;
     }
 
-    public BookDto withIsbn(String isbn){
+    public BookDto withIsbnDto(IsbnDto isbn){
         this.isbn = isbn;
         return this;
     }
@@ -33,7 +35,23 @@ public class BookDto {
         return author;
     }
 
-    public String getIsbn() {
+    public IsbnDto getIsbn() {
         return isbn;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(title, bookDto.title) &&
+                Objects.equals(author, bookDto.author) &&
+                Objects.equals(isbn, bookDto.isbn);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(title, author, isbn);
     }
 }

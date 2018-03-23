@@ -7,11 +7,10 @@ import com.moaa.domain.books.properties.Isbn;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 // adapted code from funiversity
 @Named
@@ -28,16 +27,20 @@ public class BookService {
         return bookRepository.getBooks();
     }
 
-    public List<Book> getBooksByIsbn(String isbnString) throws NoSuchElementException{
+    public List<Book> getSoftDeletedBooks() {
+        return bookRepository.getSoftDeletedBooks();
+    }
+
+    public List<Book> getBooksByIsbn(String isbnString) {
         return getBooks().stream()
-                .filter(b->b.getIsbn().equals(Isbn.convertStringToIsbn(isbnString)))
-                .collect(Collectors.toList());
+                .filter(b->b.getIsbn().getIsbnNumber().equals(isbnString))
+                .collect(toList());
     }
 
     public List<Book> getBooksByTitle(String titlePartValue) {
         return getBooks().stream()
                 .filter(b->b.getTitle().contains(titlePartValue))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
 
@@ -73,7 +76,7 @@ public class BookService {
                 .contains(authorNamePart);
     }
 
-    public void deleteBook(String isbnString) throws IllegalArgumentException{
+    public void deleteBook(String isbnString) {
         List<Book> booksToSoftDelete = new ArrayList<>();
         booksToSoftDelete.addAll(getBooksByIsbn(isbnString));
         bookRepository.deleteBook(booksToSoftDelete);
@@ -81,5 +84,16 @@ public class BookService {
 
     public void clearDatabase() {
         bookRepository.clearDatabase();
+    }
+
+    public void restoreBook(String isbn) {
+        bookRepository.createBook(getSoftDeletedBooksByIsbn(isbn));
+        bookRepository.deleteSoftDeletedBooks(getSoftDeletedBooksByIsbn(isbn));
+    }
+
+    private List<Book> getSoftDeletedBooksByIsbn(String isbn) {
+        return getSoftDeletedBooks().stream()
+                .filter(b->b.getIsbn().equals(isbn))
+                .collect(toList());
     }
 }

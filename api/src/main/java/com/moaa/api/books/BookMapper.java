@@ -15,16 +15,19 @@ import static com.moaa.domain.books.Book.BookBuilder.book;
 public class BookMapper{
     @Inject
     private AuthorMapper authorMapper;
+    @Inject
+    private IsbnMapper isbnMapper;
 
     public BookDto toDto(Book book){
         return BookDto.bookDto()
                 .withTitle(book.getTitle())
                 .withAuthorDto(authorMapper.toDto(book.getAuthor()))
-                .withIsbn(book.getIsbn().getIsbnNumber());
+                .withIsbnDto(isbnMapper.toDto(book.getIsbn()));
     }
 
-    List<BookDto> toDto(List<Book> books){
+    public List<BookDto> toDto(List<Book> books){
         List<BookDto> bookDtos = new ArrayList<>();
+        if (books.isEmpty()) { return bookDtos; }
         for (Book book : books) {
             bookDtos.add(toDto(book));
         }
@@ -35,7 +38,7 @@ public class BookMapper{
         return book()
                 .withTitle(bookDto.getTitle())
                 .withAuthor(authorMapper.toDomain(bookDto.getAuthor()))
-                .withIsbn(Isbn.convertStringToIsbn(bookDto.getIsbn()))
+                .withIsbn(isbnMapper.toDomain(bookDto.getIsbn()))
                 .build();
     }
 }

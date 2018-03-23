@@ -155,15 +155,15 @@ function getAndRenderBooks(url) {
 }
 
 function deleteBookListener(book) {
-    let bookDeleteButton = "#book" + book.isbn;
+    let bookDeleteButton = "#book" + book.isbn.isbnNumber;
     console.log(bookDeleteButton);
     $(bookDeleteButton).click(function (e) {
         e.preventDefault();
         $.ajax({
             type: 'DELETE',
-            url: BOOKS_RESOURCE + "/" + book.isbn,
+            url: BOOKS_RESOURCE + "/" + book.isbn.isbnNumber,
             success: function () {
-                showDialog("Book with ISBN " + book.isbn + " deleted!");
+                showDialog("Book with ISBN " + book.isbn.isbnNumber + " deleted!");
                 showAllBooks();
             },
             error: function (data) {
@@ -181,7 +181,9 @@ function showAllBooks() {
 
 function getRandomBookDto() {
     return `{
-        "isbn": "${ISBNS[Math.floor(Math.random() * 15)]}", 
+        "isbn": {
+            "isbnNumber": "${ISBNS[Math.floor(Math.random() * 15)]}"
+        },
         "title": "${TITLES[Math.floor(Math.random() * 15)]}",
         "author": {
             "firstName": "${AUTHOR_FIRSTNAMES[Math.floor(Math.random() * 15)]}", 
@@ -203,8 +205,8 @@ const VIEW = {
                       <div class="card-body">
                         <h4 class="card-title">${book.title}</h4>
                         <h5 class="card-subtitle mb-2 text-muted">${book.author.firstName} ${book.author.lastName}</h5>
-                        <p class="card-text">ISBN: ${book.isbn}</p>
-                        <button class="btn btn-danger" id="book${book.isbn}">Delete</button>
+                        <p class="card-text">ISBN: ${book.isbn.isbnNumber}</p>
+                        <button class="btn btn-danger" id="book${book.isbn.isbnNumber}">Delete</button>
                       </div>
                     </div>
                 </div>
